@@ -39495,7 +39495,7 @@ footer .social {
 
 .User_Sub .Sub_Block .Sub_Head .Heading {
 
-   width: 50%;
+   width: 100%;
 
 }
 
@@ -40428,3 +40428,8 @@ margin-top: 15px;
 .Admin_Profile .cardak .key-skill .pf-field .select2-selection.select2-selection--multiple {
 border: 0 !important;
 }
+
+.plan-active-table {width: 100%;}
+.plan-active-table .active-plan {text-align: center; color: green; font-weight: 500; box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px; border-radius: 30px; width: 46%;}
+.plan-active-table .cnc-plan {color: red; border-radius: 30px; text-align: center; font-weight: 500; box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px; width: 46%;}
+.plan-active-table .cnc-plan:hover {color: #fff; background: red; cursor: pointer;}

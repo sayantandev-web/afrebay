@@ -29,6 +29,7 @@ class Career_tips_model extends CI_Model
                 {  
                     $cond  = " ";
                     $cond.=" (  career_tips.title LIKE '%".trim($show_string)."%' ";
+                    $cond.=" OR career_tips.description LIKE '%".trim($show_string)."%' ";
                     $cond.=" OR  career_tips.status LIKE '%".trim($show_string)."%') ";
                     $this->db->where($cond);
                 }

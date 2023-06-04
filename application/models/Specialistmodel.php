@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Specialistmodel extends My_Model {
-    var $column_order = array(null,null,'specialist.specialist_name','specialist.status',null);
+    var $column_order = array(null,'specialist.specialist_name','specialist.created_date','specialist.status',null);
     var $order = array('specialist.id' => 'DESC');
 
     function __construct() {
@@ -19,7 +19,8 @@ class Specialistmodel extends My_Model {
             foreach ($explode_string as $show_string) {
                 $cond  = " ";
                 $cond.=" (  specialist.specialist_name LIKE '%".trim($show_string)."%' ";
-                $cond.=" OR  specialist.status LIKE '%".trim($show_string)."%') ";
+                $cond.=" OR  specialist.status LIKE '%".trim($show_string)."%' ";
+                $cond.=" OR  specialist.created_date LIKE '%".trim(date('Y-m-d',strtotime($show_string)))."%') ";
                 $this->db->where($cond);
             }
         }

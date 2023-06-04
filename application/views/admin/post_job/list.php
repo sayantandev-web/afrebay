@@ -28,6 +28,7 @@
                                     <th>Job Category</th>
                                     <th>Duration</th>
                                     <th>Charges</th>
+                                    <th>Status</th>
 
                                     <th>Action</th>
                                 </tr>

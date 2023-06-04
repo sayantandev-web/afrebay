@@ -30,11 +30,11 @@ if (!empty($get_banner->image) && file_exists('uploads/banner/' . $get_banner->i
 
                         </h3>
                         <?php
-                        if ($type == 'admin') {
+                        //if ($type == 'admin') {
                         ?>
-                            <a class="btn btn-info position-relative" style="z-index:9;" onclick="location.href = '<?= base_url('admin/jobsbidding') ?>'">Go to the admin dashboard</a>
+                            <!-- <a class="btn btn-info position-relative" style="z-index:9;" onclick="location.href = '<?= base_url('admin/jobsbidding') ?>'">Go to the admin dashboard</a> -->
                         <?php
-                        }
+                        //}
                         ?>
 
                     </div>

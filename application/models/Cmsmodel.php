@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
 class Cmsmodel extends CI_Model
 {
 
-	var $column_order = array(null,'cm.title','cm.status',null); //set column field database for datatable orderable
+	var $column_order = array(null,'cm.title','cm.description',null); //set column field database for datatable orderable
    // var $column_search = array('ms.country_name','md.state_name','mc.city_name','mc.status'); //set column field database for datatable searchable 
     var $order = array('cm.id' => 'DESC'); 
 
@@ -29,7 +29,7 @@ class Cmsmodel extends CI_Model
                 {  
                     $cond  = " ";
                     $cond.=" (  cm.title LIKE '%".trim($show_string)."%' ";
-                    $cond.=" OR  cm.status LIKE '%".trim($show_string)."%') ";
+                    $cond.=" OR  cm.description LIKE '%".trim($show_string)."%') ";
                     $this->db->where($cond);
                 }
             }

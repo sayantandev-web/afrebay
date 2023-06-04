@@ -80,8 +80,6 @@ $(function () {
                     <a href="<?=base_url(); ?>" title=""><img src="<?=base_url(); ?>uploads/logo/<?= $get_setting->logo?>" alt="" /></a>
                 </div>
                 <div class="menu-resaction">
-                    <!-- <div class="res-openmenu"><img src="<?=base_url(); ?>uploads/logo/<?= $get_setting->logo?>" alt="" /> Menu</div>
-                    <div class="res-closemenu"><img src="<?=base_url(); ?>uploads/logo/<?= $get_setting->logo?>" alt="" /> Close</div> -->
                     <div class="res-openmenu">Menu</div>
                     <div class="res-closemenu">Close</div>
                 </div>
@@ -201,16 +199,16 @@ $(function () {
                         <?php
                         if(!empty($_SESSION['afrebay']['userId'])) {
                             if($_SESSION['afrebay']['userType'] == '2') {
-                                $get_sub_data = $this->db->query("SELECT * FROM employer_subscription where employer_id = ".$_SESSION['afrebay']['userId']." and payment_status = 'paid'")->result_array();
+                                $get_sub_data = $this->db->query("SELECT * FROM employer_subscription WHERE employer_id='".$_SESSION['afrebay']['userId']."' AND (status = '1' OR status = '2')")->result_array();
                                 if(empty($get_sub_data))
                                 {
-                                    $profile_check = $this->db->query("SELECT `profilePic`, `companyname`, `email`, `mobile`,`address`, `foundedyear`, `teamsize`, `short_bio` FROM `users` WHERE userId = '".@$_SESSION['afrebay']['userId']."'")->result_array();
+                                    //$profile_check = $this->db->query("SELECT `profilePic`, `companyname`, `email`, `mobile`,`address`, `foundedyear`, `teamsize`, `short_bio` FROM `users` WHERE userId = '".@$_SESSION['afrebay']['userId']."'")->result_array();
                                     // if(in_array('', $profile_check[0]))
-                                    if(empty($profile_check[0]['companyname']) || empty($profile_check[0]['email']) || empty($profile_check[0]['address']) || empty($profile_check[0]['teamsize'])  || empty($profile_check[0]['short_bio'])) {?>
+                                    //if(empty($profile_check[0]['companyname']) || empty($profile_check[0]['email']) || empty($profile_check[0]['address']) || empty($profile_check[0]['teamsize'])  || empty($profile_check[0]['short_bio'])) {?>
                                         <a href="javascript:void(0)" title="" class="post-job-btn" id="completeSub"><i class="la la-plus"></i>Post Jobs<span id="completeSubtext">Please activate a subscription package and complete your profile to proceed with the post job activities.</span></a>
-                                    <?php } else { ?>
-                                        <a href="<?= base_url('postjob')?>" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
-                                    <?php } ?>
+                                    <?php //} else { ?>
+                                        <!-- <a href="<?= base_url('postjob')?>" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a> -->
+                                    <?php //} ?>
                                 <?php } else if(!empty($get_sub_data)) {
                                     $profile_check = $this->db->query("SELECT `profilePic`, `companyname`, `email`, `mobile`,`address`, `foundedyear`, `teamsize`, `short_bio` FROM `users` WHERE userId = '".@$_SESSION['afrebay']['userId']."'")->result_array();
                                     // if(in_array('', $profile_check[0]))
@@ -239,10 +237,10 @@ $(function () {
                                     </a>
                                     <ul>
                                         <li>
-                                            <?php $get_sub_data = $this->db->query("SELECT * FROM employer_subscription where employer_id = ".$_SESSION['afrebay']['userId']." and payment_status = 'paid'")->result_array();
+                                            <?php $get_sub_data = $this->db->query("SELECT * FROM employer_subscription WHERE employer_id='".$_SESSION['afrebay']['userId']."' AND (status = '1' OR status = '2')")->result_array();
                                             if(empty($get_sub_data)) {
                                                 if(@$_SESSION['afrebay']['userType']=='1') { ?>
-                                                    <a href="<?=base_url(); ?>profile" title="">Dashboard</a>
+                                                    <a href="<?=base_url(); ?>subscription" title="">Subscribe</a>
                                                 <?php } else { ?>
                                                     <a href="<?=base_url(); ?>subscription" title="">Subscribe</a>
                                             <?php } } else { ?>
@@ -277,4 +275,3 @@ $(function () {
                 </div>
             </div>
         </header>
-

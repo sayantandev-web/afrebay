@@ -52,7 +52,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
 							'payment_status' => $session['payment_status'],
 							'payment_date' => date('Y-m-d H:i:s'),
                             'expiry_date' => $expire_date,
-                            'duration' => $month." Month",
+                            'duration' => $month,
 							'created_date' => date('Y-m-d'),
 						);
                         $this->db->insert('employer_subscription', $dataDB);

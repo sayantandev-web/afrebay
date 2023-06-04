@@ -101,6 +101,7 @@ $route['update-product/(:any)'] = "user/dashboard/update_product/$1";
 $route['success/(:any)'] = "stripe/payment_success/$1";
 $route['view_profile'] = "user/dashboard/view_profile";
 $route['update-postjob/(:any)'] = "welcome/update_post_job/$1";
+$route['checkSubscriptionForUser'] = "user/dashboard/checkSubscriptionForUser";
 
 //ADMIN URL
 $route['admin'] = 'admin/login/index';

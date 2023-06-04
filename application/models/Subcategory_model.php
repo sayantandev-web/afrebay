@@ -2,7 +2,8 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Subcategory_model extends My_Model {
-var $column_order = array(null,null,'sub_category.sub_category_name','category.category_name','sub_category.status',null); //set column field database for datatable orderable
+// var $column_order = array(null,null,'sub_category.sub_category_name','category.category_name','sub_category.status',null); //set column field database for datatable orderable
+var $column_order = array(null,'sub_category.sub_category_name','category.category_name','sub_category.created_date',null); //set column field database for datatable orderable
  
     var $order = array('sub_category.id' => 'DESC'); 
 
@@ -27,7 +28,8 @@ var $column_order = array(null,null,'sub_category.sub_category_name','category.c
                     $cond  = " ";
                     $cond.=" (sub_category.sub_category_name LIKE '%".trim($show_string)."%' ";
                     $cond.=" OR category.category_name LIKE '%".trim($show_string)."%' ";
-                    $cond.=" OR  sub_category.status LIKE '%".trim($show_string)."%') ";
+                    $cond.=" OR  sub_category.status LIKE '%".trim($show_string)."%' ";
+                    $cond.=" OR  sub_category.created_date LIKE '%".trim(date('Y-m-d',strtotime($show_string)))."%') ";
                     $this->db->where($cond);
                 }
             }
@@ -35,7 +37,7 @@ var $column_order = array(null,null,'sub_category.sub_category_name','category.c
         
         if(isset($_POST['order'])) // here order processing
         {
-            //print_r($this->column_order);exit;
+            // print_r($this->column_order);exit;
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } 
         else if(isset($this->order))
@@ -52,6 +54,7 @@ var $column_order = array(null,null,'sub_category.sub_category_name','category.c
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         $this->db->where($cond);
+        // echo $this->db->last_query();die;
         return $query->result();
     }
 

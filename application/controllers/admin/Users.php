@@ -78,7 +78,7 @@ class Users extends MY_Controller {
             $nestedData[] = $name;
             $nestedData[] = $row->email;
             $nestedData[] = $row->mobile;
-            $nestedData[] = date('d-M-Y',strtotime($row->created));
+            $nestedData[] = date('d-m-Y',strtotime($row->created));
             $nestedData[] = $status."<input type='hidden' id='status".$row->userId."' value='".$row->status."' />";
             $nestedData[] = $btn;
             $data[] = $nestedData;

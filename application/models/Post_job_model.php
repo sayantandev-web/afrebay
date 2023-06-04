@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Post_job_model extends My_Model {
-    var $column_order = array(null,null,'postjob.post_title','postjob.status',null); //set column field database for datatable orderable
+    var $column_order = array(null,'postjob.post_title','category.category_name','postjob.duration','postjob.charges',null); //set column field database for datatable orderable
     var $order = array('postjob.id' => 'DESC');
     function __construct() {
         parent::__construct();

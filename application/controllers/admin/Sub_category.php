@@ -86,7 +86,7 @@ class Sub_category extends MY_Controller {
 			$nestedData[] = $img.' '.ucwords($row->sub_category_name);
 			$nestedData[] = ucwords($row->category_name);
 
-			$nestedData[] = date('d-M-Y',strtotime($row->created_date));
+			$nestedData[] = date('d-m-Y',strtotime($row->created_date));
 			$nestedData[] = $btn;
 			$data[] = $nestedData;
 		}

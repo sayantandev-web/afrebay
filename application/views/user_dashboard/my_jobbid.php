@@ -15,34 +15,28 @@
     <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-md-12 col-12">
+                <?php if($_SESSION['afrebay']['userType'] == '1') { ?>
+                <h2 class="breadcrumb-title">My Jobs</h2>
+                <?php } else { ?>
                 <h2 class="breadcrumb-title">List of Bids</h2>
-                <!-- <nav aria-label="breadcrumb" class="page-breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">My Job</li>
-                    </ol>
-                </nav> -->
+                <?php } ?>
             </div>
         </div>
     </div>
 </section>
 <?php $this->load->view('sidebar');?>
 <div class="col-md-12 col-md-12 col-sm-12 display-table-cell v-align">
+    <div class="text-success-msg f-20" style="text-align: center;">
+        <?php if($this->session->flashdata('message')) {
+            echo $this->session->flashdata('message');
+            unset($_SESSION['message']);
+        } ?>
+    </div>
     <div class="user-dashboard" style="text-align: center;">
         <div class="row row-sm">
             <div class="col-xl-12 col-lg-12 col-md-12">
                 <div class="cardak custom-cardak">
                     <table class="table table-modific">
-                        <!-- <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Post Title</th>
-                                <th scope="col">Freelancer</th>
-                                <th scope="col">Bid Amount</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead> -->
                         <tbody>
                             <?php
                             if(!empty($get_postjob)){
@@ -63,7 +57,7 @@
                                                     <?php } else if(@$key->bidding_status=='Reject'){?>
                                                         <span class="badge badge-danger"><?= @$key->bidding_status; ?></span>
                                                     <?php } ?>
-                                                    <?php } else { 
+                                                    <?php } else {
                                                         echo @$key->bidding_status;
                                                     } ?>
                                                     <a href="javascript:void(0)" id="view_<?php echo $key->id?>" data-toggle="tooltip" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
@@ -122,14 +116,24 @@
                                 <tr>
                                     <td colspan="2" class="height"></td>
                                 </tr>
-                                <?php $i++; }}else{?>
+                                <?php $i++; } } else { ?>
                                 <tr>
                                     <td colspan="6">
                                         <center>No Data Found</center>
+                                        <?php if($_SESSION['afrebay']['userType'] == '1') {
+                                        $get_sub_data = $this->db->query("SELECT * FROM employer_subscription where employer_id = ".$_SESSION['afrebay']['userId']." and payment_status = 'paid'")->result_array();
+                                        if(!empty($get_sub_data)) {
+                                        $profile_check = $this->db->query("SELECT * FROM `users` WHERE userId = '".@$_SESSION['afrebay']['userId']."'")->result_array();
+                                        if(empty($profile_check[0]['firstname']) || empty($profile_check[0]['lastname']) || empty($profile_check[0]['email']) || empty($profile_check[0]['gender']) || empty($profile_check[0]['address']) || empty($profile_check[0]['zip']) || empty($profile_check[0]['short_bio'])) { ?>
+                                        <button class="post-job-btn pull-right" type="submit" style=" background: linear-gradient(180deg, rgba(252, 119, 33, 1) 0%, rgba(249, 80, 30, 1) 100%) !important; border: 0 !important; "><a href="javascript:void(0)" onclick="completeSub()">Apply for Jobs</a></button>
+                                        <?php } else { ?>
                                         <button class="post-job-btn pull-right" type="submit" style=" background: linear-gradient(180deg, rgba(252, 119, 33, 1) 0%, rgba(249, 80, 30, 1) 100%) !important; border: 0 !important; "><a href="<?= base_url('ourjobs')?>" title="" target="_blank">Apply for Jobs</a></button>
+                                        <?php } } else { ?>
+                                        <button class="post-job-btn pull-right" type="submit" style=" background: linear-gradient(180deg, rgba(252, 119, 33, 1) 0%, rgba(249, 80, 30, 1) 100%) !important; border: 0 !important; "><a href="javascript:void(0)" onclick="completeSub()">Apply for Jobs</a></button>
+                                        <?php } } ?>
                                     </td>
-                                    </tr>
-                                        <?php } ?>
+                                </tr>
+                                <?php } ?>
                                     </tbody>
                                 </table>
                             </div>

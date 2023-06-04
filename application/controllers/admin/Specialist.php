@@ -65,7 +65,7 @@ class Specialist extends MY_Controller {
 			$nestedData = array();
 			$nestedData[] = $no;
 			$nestedData[] = $img.' '.ucwords($row->specialist_name);
-			$nestedData[] = date('d-M-Y',strtotime($row->created_date));
+			$nestedData[] = date('d-m-Y',strtotime($row->created_date));
 			$nestedData[] = $btn;
 			$data[] = $nestedData;
         }

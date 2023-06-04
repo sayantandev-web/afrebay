@@ -37,7 +37,12 @@ class Jobsbidding extends MY_Controller {
             }
             if(!empty($row->bidding_status=='Accept')){
                 $bidding_status='Accepted';
-            } else {
+            }
+            else if(!empty($row->bidding_status=='Reject')){
+                $bidding_status='Rejected';
+
+            }
+            else {
                 $bidding_status= $row->bidding_status;
             }
             $no++;
@@ -50,7 +55,7 @@ class Jobsbidding extends MY_Controller {
             $nestedData[] = ucfirst($row->post_title).$btn;
             $nestedData[] = $row->duration;
             $nestedData[] = 'USD'.' '.$row->bid_amount;
-            $nestedData[] = date('d-M-Y',strtotime($row->created_date));
+            $nestedData[] = date('d-m-Y',strtotime($row->created_date));
             $nestedData[] = $bidding_status;
             //$nestedData[] = $btn;
             $data[] = $nestedData;

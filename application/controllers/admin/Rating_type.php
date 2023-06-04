@@ -21,6 +21,23 @@ class Rating_type extends MY_Controller {
 		$this->load->view('admin/rating/list',$data);
 		$this->load->view('admin/footer');
 	}
+	public function change_status()
+    {
+        if($_POST['status']=='Active')
+        {
+            $statuss='Inactive';
+
+        }
+        else if($_POST['status']=='Inactive'){
+            $statuss='Active';
+
+        }
+        $data=array(
+            'status'=>$statuss,
+        );
+        $this->Crud_model->SaveData("postjob",$data,"id='".$_POST['id']."'");
+
+    }
 
 	function ajax_manage_page()
 	{
@@ -137,23 +154,23 @@ class Rating_type extends MY_Controller {
 
 	}
 
-	public function change_status()
-	{
-		if($_POST['status']=='Active')
-		{
-			$statuss='Inactive';
+	// public function change_status()
+	// {
+	// 	if($_POST['status']=='Active')
+	// 	{
+	// 		$statuss='Inactive';
 
-		}
-		else if($_POST['status']=='Inactive'){
-			$statuss='Active';
+	// 	}
+	// 	else if($_POST['status']=='Inactive'){
+	// 		$statuss='Active';
 
-		}
-		$data=array(
-			'status'=>$statuss,
-		);
-		$this->Crud_model->SaveData("rating_type",$data,"id='".$_POST['id']."'");
+	// 	}
+	// 	$data=array(
+	// 		'status'=>$statuss,
+	// 	);
+	// 	$this->Crud_model->SaveData("rating_type",$data,"id='".$_POST['id']."'");
 
-	}
+	// }
 
 }
 ?>

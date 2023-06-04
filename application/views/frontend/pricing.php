@@ -63,15 +63,22 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
             						</div>
                                     <?php
                                     if(!empty($_SESSION['afrebay']['userType'])) {
-                                    if($_SESSION['afrebay']['userType']=='2') {
                                         if(!empty($subcriber_pack)) { ?>
                                         <a class="btn btn-info" href="javascript:void(0);" onclick="sub_alert()">Buy</a>
-                                        <?php } else { ?>
-                                        <a class="btn btn-info" href="<?= base_url('stripe/'.base64_encode($key->price_key))?>">Buy</a>
+                                        <?php } else {
+                                            if($key->subscription_type == 'paid') { ?>
+                                                <a class="btn btn-info" href="<?= base_url('stripe/'.base64_encode($key->price_key))?>">Buy</a>
+                                            <?php } else { ?>
+                                                <a href="javascript:void(0);" class="btn btn-primary getSubscription_<?php echo $key->id?>" id="getSubscription_<?php echo $key->id?>">Buy</a>
+                                                <input type="hidden" name="user_id_<?php echo $key->id?>" id="user_id_<?php echo $key->id?>" value="<?php echo $_SESSION['afrebay']['userId']?>">
+                                                <input type="hidden" name="sub_id_<?php echo $key->id?>" id="sub_id_<?php echo $key->id?>" value="<?php echo $key->id?>">
+                                                <input type="hidden" name="sub_name_<?php echo $key->id?>" id="sub_name_<?php echo $key->id?>" value="<?php echo $key->subscription_name?>">
+                                                <input type="hidden" name="user_email_<?php echo $key->id?>" id="user_email_<?php echo $key->id?>" value="<?php echo $_SESSION['afrebay']['userEmail']?>">
+                                                <input type="hidden" name="sub_price_<?php echo $key->id?>" id="sub_price_<?php echo $key->id?>" value="<?php echo $key->subscription_amount?>">
+                                                <input type="hidden" name="sub_duration_<?php echo $key->id?>" id="sub_duration_<?php echo $key->id?>" value="<?php echo $key->subscription_duration?>">
+                                            <?php } ?>
                                         <?php $this->session->set_userdata('subid', $key->id)?>
                                         <input type="hidden" name="sub_id" value="<?php echo $this->session->userdata('subid');?>">
-                                    <?php } } else { ?>
-                                    <a class="btn btn-info" href="#" style="pointer-events: none; cursor: default;">Buy</a>
                                     <?php } } else { ?>
                                     <a class="btn btn-info" href="<?= base_url('login')?>">Buy</a>
                                     <?php } ?>
@@ -90,33 +97,66 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
 #subscription-messages{display: none; text-align: center;}
 </style>
 <script type="text/javascript">
-    /*function buy_subscription(id) {
-        var base_url = $("#base_url").val();
-        var subscription_id = id;
-        var amount = $("#amount" + id).val();
-        //alert(amount); return false;
-        $.ajax({
-            url: base_url + 'user/dashboard/buy_subscription',
-            type: 'POST',
-            data: {
-                subscription_id: subscription_id,
-                amount: amount,
-            },
-            success: function (returndata) {
-                if (returndata == 1) {
-                    location.reload();
+$(document).ready(function(){
+    <?php
+    if(!empty($get_subscription)) {
+        $i=1;
+        foreach ($get_subscription as $value) { ?>
+        $('#getSubscription_<?php echo $value->id?>').click(function() {
+            var user_id = $('#user_id_<?php echo $value->id?>').val();
+            var sub_id = $('#sub_id_<?php echo $value->id?>').val();
+            var sub_name = $('#sub_name_<?php echo $value->id?>').val();
+            var user_email = $('#user_email_<?php echo $value->id?>').val();
+            var sub_price = $('#sub_price_<?php echo $value->id?>').val();
+            var sub_duration = $('#sub_duration_<?php echo $value->id?>').val();
+            var base_url = $('#base_url').val();
+            $.ajax({
+                url:base_url+"user/dashboard/userSubscription",
+                method:"POST",
+                data:{user_id: user_id,sub_id: sub_id,sub_name: sub_name,user_email: user_email,sub_price: sub_price,sub_duration: sub_duration},
+                beforeSend : function(){
+                    $("#loader").show();
+                    $(".getSubscription_<?php echo $value->id?>").text('Please wait..');
+                },
+                success:function(data) {
+                    if (data == '1'){
+                        setTimeout(function () {
+                            window.scroll({top: 0, behavior: "smooth"});
+                            $('#subscription-messages').show();
+                        }, 10000);
+                        setTimeout(function () {
+                            $('#subscription-messages').hide();
+                        }, 13000);
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 16000);
+                    } else {
+                        $('#err-messages').show();
+                        setTimeout(function () {
+                            window.scroll({top: 0, behavior: "smooth"})
+                        }, 5000);
+                        setTimeout(function () {
+                            $('#err-messages').hide();
+                        }, 8000);
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 9000);
+                    }
                 }
-            }
-        });
-    }*/
-    function sub_alert () {
-        setTimeout(function () {
-            //$("#loader").hide();
-            window.scroll({top: 0, behavior: "smooth"});
-            $('#subscription-messages').show();
-        }, 0000);
-        setTimeout(function () {
-            $('#subscription-messages').hide();
-        }, 13000);
-    }
+
+            })
+        })
+<?php $i++; } } ?>
+})
+
+function sub_alert () {
+    setTimeout(function () {
+        //$("#loader").hide();
+        window.scroll({top: 0, behavior: "smooth"});
+        $('#subscription-messages').show();
+    }, 0000);
+    setTimeout(function () {
+        $('#subscription-messages').hide();
+    }, 13000);
+}
 </script>

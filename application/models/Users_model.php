@@ -22,7 +22,10 @@ class Users_model extends My_Model {
                 $cond  = " ";
                 $cond.=" ( users.username LIKE '%".trim($show_string)."%' ";
                 $cond.=" OR  users.email LIKE '%".trim($show_string)."%' ";
-                $cond.=" OR  users.mobile LIKE '%".trim($show_string)."%') ";
+                $cond.=" OR  users.mobile LIKE '%".trim($show_string)."%' ";
+                $cond.=" OR  users.created LIKE '%".trim(date('Y-m-d',strtotime($show_string)))."%') ";
+
+
                 $this->db->where($cond);
             }
         }

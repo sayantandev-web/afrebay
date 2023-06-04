@@ -37,6 +37,19 @@ class Post_job extends MY_Controller {
 				$string = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
 				$string .= '...';
 			}
+			if($row->status=="Active"){
+                $status='<div class="status-toggle">
+                <input id="rating_\''.$row->id.'\'" class="check" type="checkbox" checked onClick="status('.$row->id.');">
+                <label for="rating_\''.$row->id.'\'" class="checktoggle">checkbox</label>
+                </div>';
+            }
+            else
+            {
+                $status='<div class="status-toggle">
+                <input id="rating_\''.$row->id.'\'" class="check" type="checkbox" onClick="status('.$row->id.');">
+                <label for="rating_\''.$row->id.'\'" class="checktoggle">checkbox</label>
+                </div>';
+            }
 			$btn = ''.anchor(base_url('postdetail/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2"><i class="far fa-eye mr-1"></i>View</span>');
 			$no++;
 			$nestedData = array();
@@ -45,7 +58,7 @@ class Post_job extends MY_Controller {
 			$nestedData[] = ucwords($row->category_name);
 			$nestedData[] = $row->duration;
 			$nestedData[] = "USD"." ".$row->charges;
-			//$nestedData[] = $status."<input type='hidden' id='status".$row->id."' value='".$row->status."' />";
+			$nestedData[] = $status."<input type='hidden' id='status".$row->id."' value='".$row->status."' />";
 			$nestedData[] = $btn;
 			$data[] = $nestedData;
         }
@@ -58,6 +71,8 @@ class Post_job extends MY_Controller {
         );
     	echo json_encode($output);
 	}
+
+	
 
 	function view($id) {
 	 	$con="postjob.id='".base64_decode($id)."'";

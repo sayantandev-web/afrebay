@@ -5,11 +5,11 @@ redirect(base_url('login'));
 }
 $seg1=$this->uri->segment(1);
 ?>
-<section class="dashboard-gig User_Sidemenu">
+<section class="dashboard-gig User_Sidemenu max_height">
     <div class="container display-table" style="display: block;">
         <div class="completeSub">Please activate a subscription package and complete your profile to proceed with further activities within your dashboard</div>
         <div class="row display-table-row">
-            <div class="col-md-12 col-md-12 col-sm-12 hidden-xs display-table-cell v-align box" id="navigation">
+            <div class="col-md-12 col-md-12 col-sm-12 hidden-xs for-mobile-sidemenu display-table-cell v-align box" id="navigation">
                 <div class="navi">
                     <ul>
                         <li <?php if($seg1=='subscription') { ?> class="active" <?php } ?>>

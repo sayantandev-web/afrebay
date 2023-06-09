@@ -33,7 +33,7 @@
         <form class="form" action="<?= $action; ?>" method="post" id="registrationForm" enctype="multipart/form-data">
             <div class="row row-sm">
                 <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="cardak">
+                    <div class="cardak profile-mobile">
                         <div class="container bootstrap snippet">
                             <div class="new-pro">
                                 <a href="#" class="pull-right"></a>

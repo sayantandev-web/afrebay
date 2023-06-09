@@ -15,9 +15,9 @@
                 </div>
             </div>
         </div>
-        <div class="card filter-card" id="filter_inputs">
+        <div class="card filter-card" id="filter_inputs" style="display: block">
             <div class="card-body pb-0">
-                <form action="#" method="post">
+                <form id="categorySearch" action="#" method="post">
                     <div class="row filter-row">
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group">
@@ -33,24 +33,25 @@
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group">
-                                    <label>From Date</label>
+                                    <label>Created Date</label>
                                     <div class="cal-icon">
                                         <!--  datetimepicker -->
-                                        <input class="form-control  filter_search_data5" type="date" name="from_date" value="">
+                                        <input class="form-control filter_search_data5" type="date" name="from_date" value="">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-3">
+                            <!-- <div class="col-sm-6 col-md-3">
                                 <div class="form-group">
                                     <label>To Date</label>
                                     <div class="cal-icon">
                                         <input class="form-control  filter_search_data7" type="date" name="to_date" value="">
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group">
-                                    <a class="btn btn-primary btn-block" href="<?= admin_url('Specialist')?>">Refresh</a>
+                                    <!-- <a class="btn btn-primary btn-block" href="<?= admin_url('Specialist')?>">Refresh</a> -->
+                                    <a class="btn btn-primary btn-block" id="refreshForm" href="javascript:void(0)" style="line-height: 35px;">Refresh</a>
                                 </div>
                             </div>
                         </div>
@@ -158,3 +159,10 @@ var url = '<?= admin_url('Specialist/ajax_manage_page')?>';
 var actioncolumn=3;
 </script>
 <script type="text/javascript" src="<?= base_url('dist/assets/custom_js/specialist.js')?>"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+$('#refreshForm').click(function(){
+    $('#categorySearch').trigger("reset");
+    $('.filter_search_data6').val('').trigger('change');
+})
+</script>

@@ -55,7 +55,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                             'duration' => $month,
 							'created_date' => date('Y-m-d'),
 						);
-                        $this->db->insert('employer_subscription', $dataDB);
+						$this->db->insert('employer_subscription', $dataDB);
 						if($this->db->insert_id()) { ?>
 							<div class="heading">
 								<h4 class="card-title">Payment Successful #<?php echo $this->db->insert_id(); ?></h4>

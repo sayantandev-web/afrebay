@@ -44,6 +44,28 @@ function create_rating()
 
 }
 
+function status(id)
+{
+	alert(id);
+	var admin_url = $("#admin_url").val();
+	alert(admin_url);
+  var cnf = confirm('Are you sure to change the status?');
+  var status=$("#status"+id).val();
+  if(cnf==true)
+  {
+  	 $.ajax({
+        type:"POST",
+        url:admin_url+"post_job/change_status",
+        data:{id:id,status:status,},
+        cache:false,
+        success:function(returndata)
+        {
+        	table.draw();
+        }
+      });
+  }
+}
+
 function getValue(id)
 {
 	 var admin_url = $("#admin_url").val();

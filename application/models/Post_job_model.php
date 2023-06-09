@@ -110,6 +110,7 @@ class Post_job_model extends My_Model {
         $this->db->join('users','users.userId=postjob.user_id','left');
         $this->db->join('sub_category','sub_category.id=postjob.subcategory_id','left');
         $this->db->where('postjob.is_delete','0');
+        $this->db->where('postjob.status','Active');
         $this->db->order_by('postjob.id','desc');
         $query = $this->db->get();
         return $query->result();
@@ -122,6 +123,7 @@ class Post_job_model extends My_Model {
         $this->db->join('users','users.userId=postjob.user_id','left');
         $this->db->join('sub_category','sub_category.id=postjob.subcategory_id','left');
         $this->db->where('postjob.is_delete','0');
+        $this->db->where('postjob.status','Active');
         $this->db->limit($limit, $start);
         $this->db->order_by('postjob.id','desc');
         $data = $this->db->get();
@@ -223,7 +225,7 @@ class Post_job_model extends My_Model {
             $query .= ' LIMIT '.$start.', ' . $limit;
             $data = $this->db->query($query);
         } else {
-            $query = "SELECT * FROM postjob WHERE is_delete = '0' ORDER BY id DESC";
+            $query = "SELECT * FROM postjob WHERE is_delete = '0' AND status = 'Active' ORDER BY id DESC";
             $query .= ' LIMIT '.$start.', ' . $limit;
             $data = $this->db->query($query);
         }

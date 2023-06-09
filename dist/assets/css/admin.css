@@ -6043,3 +6043,10 @@ table.dataTable td, table.dataTable th{
 .filter-card .cal-icon:after{
 	display: none;
 }
+
+.sticky_thead {
+    position: sticky;
+    top: 59px;
+    background: #fff;
+    z-index: 1100;
+}

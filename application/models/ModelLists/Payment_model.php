@@ -10,11 +10,13 @@ class Payment_model extends My_Model {
         parent::__construct();
     }
 
-    private function _get_datatables_query() {
-        $this->db->select('emp.*,subscription.subscription_name,users.companyname,users.firstname,users.lastname');
+    private function _get_datatables_query($cond) {
+        $this->db->select('emp.*,subscription.subscription_name,users.companyname,users.firstname,users.lastname,users.userType');
         $this->db->from('employer_subscription as emp');
         $this->db->join('subscription',"subscription.id=emp.subscription_id",'left');
         $this->db->join('users',"users.userId=emp.employer_id");
+        $this->db->where($cond);
+
         $i = 0;
 
         if($_POST['search']['value']) {
@@ -41,22 +43,23 @@ class Payment_model extends My_Model {
         }
     }
 
-    function get_datatables() {
-        $this->_get_datatables_query();
+    function get_datatables($cond) {
+        $this->_get_datatables_query($cond);
         if($_POST['length'] != -1)
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
-        //$this->db->where($cond);
+        $this->db->where($cond);
+        // echo $this->db->last_query();die;
         return $query->result();
     }
 
-    public function count_all() {
-        $this->_get_datatables_query();
+    public function count_all($cond) {
+        $this->_get_datatables_query($cond);
         return $this->db->count_all_results();
     }
 
-    function count_filtered() {
-        $this->_get_datatables_query();
+    function count_filtered($cond) {
+        $this->_get_datatables_query($cond);
         $query = $this->db->get();
         return $query->num_rows();
     }

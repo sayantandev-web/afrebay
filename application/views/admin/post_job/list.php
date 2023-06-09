@@ -27,9 +27,8 @@
                                     <th>Post Title</th>
                                     <th>Job Category</th>
                                     <th>Duration</th>
-                                    <th>Charges</th>
+                                    <th>Approximate Remuneration</th>
                                     <th>Status</th>
-
                                     <th>Action</th>
                                 </tr>
                             </thead>

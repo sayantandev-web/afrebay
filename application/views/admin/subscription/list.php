@@ -21,7 +21,7 @@
 						<div class="pricing-header">
 							<h2><?php echo @$key->subscription_name; ?></h2>
 							<?php if(@$key->subscription_type=='free'){
-								
+
 								?>
 								<p><?php echo ucfirst(@$key->subscription_type)?> Subscription </p>
 
@@ -33,7 +33,7 @@
 							<p><?php echo ucfirst(@$key->subscription_type)?> Subscription ($<b><?php echo $key->subscription_amount?></b>)</p>
 
 							<?php } ?>
-							
+
 						</div>
 						<div class="pricing-card-price">
 							<!-- <h3 class="heading2 price"><?php //echo 'USD'.' '.$key->subscription_amount; ?></h3> -->

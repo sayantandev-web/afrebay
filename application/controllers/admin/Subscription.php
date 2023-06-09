@@ -9,7 +9,7 @@ class Subscription extends MY_Controller {
 
 	function index() {
 		$offersdata=$this->Crud_model->GetData('subscription','','');
-		$header = array('title' => 'Freelancer Subscriptions'); 
+		$header = array('title' => 'Freelancer Subscriptions');
 		$data = array('heading' => 'Freelancer Subscriptions','offersdata' => $offersdata);
         $this->load->view('admin/header', $header);
         $this->load->view('admin/sidebar');
@@ -18,19 +18,24 @@ class Subscription extends MY_Controller {
 	}
 
 	public function create() {
+		$countries = $this->Crud_model->GetData('countries');
     	$header = array('title'=> 'Add');
       	$data = array(
 			'heading'=>'Add Subscription Plan',
 			'button'=>'Create',
 			'subscription_name' =>set_value('subscription_name'),
+			'subscription_user_type' =>set_value('subscription_user_type'),
 			'subscription_type' =>set_value('subscription_type'),
 			'subscription_amount' =>set_value('subscription_amount'),
+			'subscription_country' =>set_value('subscription_country'),
 			'subscription_duration' =>set_value('subscription_duration'),
 			'subscription_id' =>set_value('subscription_id'),
 			//'payment_link' =>set_value('payment_link'),
 			'product_key' =>set_value('product_key'),
 			'price_key' =>set_value('price_key'),
+			'plan_code' =>set_value('plan_code'),
 			'subscription_description' =>set_value('subscription_description'),
+			'countries' => $countries,
 			'id' =>set_value('id')
 		);
 		//print_r($data); die;
@@ -43,13 +48,16 @@ class Subscription extends MY_Controller {
 	public function create_action() {
 		$data = array(
 			'subscription_name'=> $_POST['subscription_name'],
+			'subscription_user_type' =>$_POST['subscription_user_type'],
 			'subscription_type'=> $_POST['subscription_type'],
 			'subscription_amount'=> $_POST['subscription_amount'],
+			'subscription_country' =>$_POST['subscription_country'],
 			'subscription_duration'=> $_POST['subscription_duration'],
 			'subscription_description'=> $_POST['subscription_description'],
 			//'payment_link'=> $_POST['payment_link'],
 			'product_key'=> $_POST['product_key'],
 			'price_key'=> $_POST['price_key'],
+			'plan_code' => $_POST['plan_code'],
 			'created_date'=> date('Y-m-d H:i:s')
 		);
         $this->Crud_model->SaveData('subscription',$data);
@@ -70,6 +78,7 @@ class Subscription extends MY_Controller {
 
 	public function update($id) {
 		$sub_id=base64_decode($id);
+		$countries = $this->Crud_model->GetData('countries');
 		$update_sub=$this->Crud_model->get_single('subscription',"id='".$sub_id."'");
 		//$sub_offer=$this->Crud_model->GetData('subscription_service','',"subscription_id='".$update_sub->id."'");
 		$header=array('title'=>'update');
@@ -78,13 +87,17 @@ class Subscription extends MY_Controller {
 			'heading'=>'Edit Subscription',
 			'button'=>'Update',
 			'subscription_name'=>set_value('subscription_name',$update_sub->subscription_name),
+			'subscription_user_type' =>set_value('subscription_user_type',$update_sub->subscription_user_type),
 			'subscription_type'=>set_value('subscription_type',$update_sub->subscription_type),
 			'subscription_amount'=>set_value('subscription_amount',$update_sub->subscription_amount),
+			'subscription_country'=>set_value('subscription_country',$update_sub->subscription_country),
 			'subscription_duration'=>set_value('subscription_duration',$update_sub->subscription_duration),
 			'subscription_description'=>set_value('subscription_description',$update_sub->subscription_description),
 			//'payment_link'=>set_value('payment_link',$update_sub->payment_link),
 			'product_key'=>set_value('product_key',$update_sub->product_key),
 			'price_key'=>set_value('price_key',$update_sub->price_key),
+			'plan_code' => set_value('plan_code',$update_sub->plan_code),
+			'countries' => $countries,
 			'id'=>$sub_id
 		);
 		//print_r($data); die();
@@ -98,13 +111,16 @@ class Subscription extends MY_Controller {
 		//$data = array('subscription_name'=> $_POST['subscription_name'], 'subscription_amount'=> $_POST['subscription_amount'], 'subscription_duration'=> $_POST['subscription_duration'], 'created_date'=> date('Y-m-d H:i:s'));
 		$data = array(
 			'subscription_name'=> $_POST['subscription_name'],
+			'subscription_user_type'=> $_POST['subscription_user_type'],
 			'subscription_type'=> $_POST['subscription_type'],
 			'subscription_amount'=> $_POST['subscription_amount'],
+			'subscription_country'=> $_POST['subscription_country'],
 			'subscription_duration'=> $_POST['subscription_duration'],
 			'subscription_description'=> $_POST['subscription_description'],
 			//'payment_link'=> $_POST['payment_link'],
 			'product_key'=> $_POST['product_key'],
 			'price_key'=> $_POST['price_key'],
+			'plan_code' => $_POST['plan_code'],
 			'created_date'=> date('Y-m-d H:i:s')
 		);
         $this->Crud_model->SaveData('subscription',$data,"id='".$_POST['id']."'");

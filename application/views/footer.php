@@ -85,7 +85,7 @@ if(!empty($_SESSION['afrebay']['userId'])) {
     </div>
 </footer>
 <input type="hidden" name="base_url" id="base_url" value="<?= base_url()?>">
-
+<!-- <input type="text" name="paymentLocation" id="paymentLocation" value=""> -->
 <style>
 <?php $seg2 = $this->uri->segment(1);
     if($seg2 == 'register') { ?>
@@ -129,7 +129,7 @@ if(!empty($_SESSION['afrebay']['userId'])){
 <script src="<?= base_url('assets/js/jquery.scrollbar.min.js')?>" type="text/javascript"></script>
 <script src="<?= base_url('assets/js/maps2.js')?>" type="text/javascript"></script>
 <script src="<?= base_url('assets/js/bootstrap-datepicker.js')?>" type="text/javascript"></script>
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtg6oeRPEkRL9_CE-us3QdvXjupbgG14A&libraries=places&callback=initMap" async defer></script> -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtg6oeRPEkRL9_CE-us3QdvXjupbgG14A&libraries=places&callback=initMap" async defer></script>
 <script type="text/javascript" src="<?= base_url('assets/custom_js/validation.js')?>"></script>
 <script src="<?= base_url();?>dist/assets/notify/notify.min.js"></script>
 <!-- multi Select option for worker list page-->

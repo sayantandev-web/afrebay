@@ -21,6 +21,14 @@
 								<input class="form-control" type="text" placeholder="Example: Basic" name="subscription_name" value="<?= $subscription_name;?>" required>
 							</div>
 							<div class="form-group">
+								<label>Subscription Plan for Specific User Type</label>
+								<select class="form-control" name="subscription_user_type" id="subscription_user_type" required>
+									<option value="">Choose an option</option>
+									<option value="Freelancer" <?php if($subscription_user_type == 'Freelancer') { echo "selected"; } ?>>Freelancer</option>
+									<option value="Vendor" <?php if($subscription_user_type == 'Vendor') { echo "selected"; } ?>>Vendor</option>
+								</select>
+							</div>
+							<div class="form-group subscription_type">
 								<label>Subscription Type</label>
 								<select class="form-control" name="subscription_type" id="subscription_type" required onclick="showHideDiv()">
 									<option value="">Choose an option</option>
@@ -28,19 +36,31 @@
 									<option value="paid" <?php if($subscription_type == 'paid') { echo "selected"; } ?>>Paid</option>
 								</select>
 							</div>
-							<div class="form-group showHideSection subscription_amount" >
+							<div class="form-group subscription_country">
+								<label>Subscription Country</label>
+								<select class="form-control" name="subscription_country" id="subscription_country" required onclick="showpaystackField()">
+									<option value="">Choose an option</option>
+									<option value="Nigeria" <?php if($subscription_country == 'Nigeria') { echo "selected"; } ?>>Nigeria</option>
+									<option value="Global" <?php if($subscription_country == 'Global') { echo "selected"; } ?>>Global</option>
+								</select>
+							</div>
+							<div class="form-group showSubPrice" >
 								<label>Subscription Amount ($)</label>
 								<input class="form-control" type="text" placeholder="Example: 100 USD" id="subscription_amount" name="subscription_amount" value="<?= $subscription_amount;?>" required  onkeypress="only_number(event)">
 							</div>
-							<div class="form-group showHideSection product_key" >
+							<div class="form-group showProdKey" >
 								<label>Product ID (Stripe Product Key)</label>
 								<input class="form-control" type="text" placeholder="Example: prod_XXXXXXXXXXXXXX" id="product_key" name="product_key" value="<?= $product_key;?>">
 							</div>
-							<div class="form-group showHideSection price_key" >
+							<div class="form-group showPriceKey" >
 								<label>Price ID (Stripe Price Key)</label>
 								<input class="form-control" type="text" placeholder="Example: price_XXXXXXXXXXXXXXXXXXXXXXXX" id="price_key" name="price_key" value="<?= $price_key;?>">
 							</div>
-							<div class="form-group">
+							<div class="form-group showPaystackField" >
+								<label>Plan Code (Pay Stack Plan Code)</label>
+								<input class="form-control" type="text" placeholder="Example: PLN_XXXXXXXXXXXXXXX" id="plan_code" name="plan_code" value="<?= $plan_code;?>">
+							</div>
+							<div class="form-group subscription_duration">
 								<label>Subscription Duration (in days)</label>
 								<input class="form-control" type="text" placeholder="Example: 30" name="subscription_duration" value="<?= $subscription_duration;?>" required onkeypress="only_numbers(event)">
 							</div>
@@ -63,9 +83,10 @@
 	</div>
 </div>
 <style>
-.showHideSection {display: none;}
-.product_key {display: none;}
-.price_key {display: none;}
+.showSubPrice {display: none;}
+.showProdKey {display: none;}
+.showPriceKey {display: none;}
+.showPaystackField {display: none;}
 </style>
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -94,20 +115,59 @@ function remove(row) {
 	}
 }*/
 $(document).ready(function(){
-	var subscription_type = $('#subscription_type').val();
-	if(subscription_type == 'free') {
-		$('.product_key').hide();
-		$('.price_key').hide();
-		$('.product_key').prop('required',false);
-		$('.price_key').prop('required',false);
-		$('.subscription_amount').show();
-		$('#subscription_amount').val('0.00');
-		$('#subscription_amount').prop('readonly', true);
-	}else if(subscription_type == 'paid') {
-		$('.product_key').show();
-		$('.price_key').show();
-		$('.product_key').prop('required',true);
-		$('.price_key').prop('required',true);
+	var selectedOption = $('#subscription_type').val();
+	var selectedcountry = $('#subscription_country').val();
+	if(selectedOption == 'free') {
+		if(selectedcountry == 'Nigeria') {
+			$('.showSubPrice').show();
+			$('#subscription_amount').val('0.00');
+			$('#subscription_amount').prop('readonly', true);
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+		} else if(selectedcountry == '') {
+			$('.showSubPrice').hide();
+			$('#subscription_amount').val('');
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+		} else {
+			$('.showSubPrice').show();
+			$('#subscription_amount').val('0.00');
+			$('#subscription_amount').prop('readonly', true);
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+		}
+	} else if(selectedOption == 'paid'){
+		if(selectedcountry == 'Nigeria') {
+			$('.showSubPrice').show();
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').show();
+			$('#plan_code').prop('required',true);
+		} else if(selectedcountry == '') {
+			$('.showSubPrice').hide();
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+			$('#plan_code').prop('required',false);
+		} else {
+			$('.showSubPrice').show();
+			$('.showProdKey').show();
+			$('.showPriceKey').show();
+			$('.showPaystackField').hide();
+			$('#product_key').prop('required',true);
+			$('#price_key').prop('required',true);
+		}
+	} else {
+		$('.showSubPrice').hide();
+		$('.showProdKey').hide();
+		$('.showPriceKey').hide();
+		$('.showPaystackField').hide();
+		$('#product_key').prop('required',false);
+		$('#price_key').prop('required',false);
+		$('#plan_code').prop('required',false);
 	}
 
 	$("#subscription_amount").on("keypress keyup blur", function (event) {
@@ -118,25 +178,125 @@ $(document).ready(function(){
      	}
  	});
 })
+
 function showHideDiv() {
 	var selectedOption = $('#subscription_type').val();
+	var selectedcountry = $('#subscription_country').val();
 	if(selectedOption == 'free') {
-		$('.showHideSection').show();
-		$('#subscription_amount').val('0.00');
-		$('#subscription_amount').prop('readonly', true);
-		$('.product_key').hide();
-		$('.price_key').hide();
-	} else if (selectedOption == 'paid') {
-		$('.showHideSection').show();
-		$('#subscription_amount').prop('readonly', false);
-		$('.product_key').show();
-		$('.price_key').show();
-		$('.product_key').prop('required',true);
-		$('.price_key').prop('required',true);
+		if(selectedcountry == 'Nigeria') {
+			$('.showSubPrice').show();
+			$('#subscription_amount').val('0.00');
+			$('#subscription_amount').prop('readonly', true);
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+		} else if(selectedcountry == '') {
+			$('.showSubPrice').hide();
+			$('#subscription_amount').val('');
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+		} else {
+			$('.showSubPrice').show();
+			$('#subscription_amount').val('0.00');
+			$('#subscription_amount').prop('readonly', true);
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+		}
+	} else if(selectedOption == 'paid'){
+		if(selectedcountry == 'Nigeria') {
+			$('.showSubPrice').show();
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').show();
+			$('#plan_code').prop('required',true);
+		} else if(selectedcountry == '') {
+			$('.showSubPrice').hide();
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+			$('#plan_code').prop('required',false);
+		} else {
+			$('.showSubPrice').show();
+			$('.showProdKey').show();
+			$('.showPriceKey').show();
+			$('.showPaystackField').hide();
+			$('#product_key').prop('required',true);
+			$('#price_key').prop('required',true);
+		}
 	} else {
-		$('.showHideSection').hide();
+		$('.showSubPrice').hide();
+		$('.showProdKey').hide();
+		$('.showPriceKey').hide();
+		$('.showPaystackField').hide();
+		$('#product_key').prop('required',false);
+		$('#price_key').prop('required',false);
+		$('#plan_code').prop('required',false);
 	}
 }
+
+function showpaystackField() {
+	var selectedcountry = $('#subscription_country').val();
+	var selectedOption = $('#subscription_type').val();
+	if(selectedcountry == 'Nigeria') {
+		if (selectedOption == 'free') {
+			$('.showSubPrice').show();
+			$('#subscription_amount').val('0.00');
+			$('#subscription_amount').prop('readonly', true);
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+		} else if(selectedOption == 'paid') {
+			$('.showSubPrice').show();
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').show();
+			$('#plan_code').prop('required',true);
+		} else {
+			$('.showSubPrice').hide();
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+			$('#product_key').prop('required',false);
+			$('#price_key').prop('required',false);
+			$('#plan_code').prop('required',false);
+		}
+	} else if (selectedcountry == '') {
+		$('.showSubPrice').hide();
+		$('.showProdKey').hide();
+		$('.showPriceKey').hide();
+		$('.showPaystackField').hide();
+		$('#product_key').prop('required',false);
+		$('#price_key').prop('required',false);
+		$('#plan_code').prop('required',false);
+	} else {
+		if (selectedOption == 'free') {
+			$('.showSubPrice').show();
+			$('#subscription_amount').val('0.00');
+			$('#subscription_amount').prop('readonly', true);
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+		}  else if(selectedOption == 'paid') {
+			$('.showSubPrice').show();
+			$('.showProdKey').show();
+			$('.showPriceKey').show();
+			$('.showPaystackField').hide();
+			$('#product_key').prop('required',true);
+			$('#price_key').prop('required',true);
+		} else {
+			$('.showSubPrice').hide();
+			$('.showProdKey').hide();
+			$('.showPriceKey').hide();
+			$('.showPaystackField').hide();
+			$('#product_key').prop('required',false);
+			$('#price_key').prop('required',false);
+			$('#plan_code').prop('required',false);
+		}
+	}
+}
+
 function only_number(event) {
     var x = event.which || event.keyCode;
     console.log(x);

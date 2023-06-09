@@ -24,7 +24,7 @@
 
 
 
-<section>
+<section class="max_height">
     <div class="block Career_Tips">
         <div class="container">
             <div class="row">

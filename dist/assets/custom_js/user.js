@@ -1,5 +1,6 @@
 function status(id)
 {
+  alert(id);
 	var admin_url = $("#admin_url").val();
   var cnf = confirm('Are you sure to change the status?');
   var status=$("#status"+id).val();
@@ -39,3 +40,8 @@ function Delete(obj,cid)
       });
   }
 }
+
+
+
+
+

@@ -54,7 +54,7 @@ else{
         <input type="hidden" name="from_data_request" value="<?=$data_request;?>">
             <div class="row row-sm">
                 <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="cardak">
+                    <div class="cardak profile-mobile">
                         <span class="text-success-msg f-20" style="text-align: center;">
                         <?php if($this->session->flashdata('message')) {
                             echo $this->session->flashdata('message');

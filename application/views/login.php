@@ -27,7 +27,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
         </div>
     </div>
 </section>
-<section>
+<section class="max_height">
     <div class="block remove-bottom Sign_In">
         <div class="container">
             <div class="row justify-content-md-center">

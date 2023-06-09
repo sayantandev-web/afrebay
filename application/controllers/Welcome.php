@@ -54,7 +54,7 @@ class Welcome extends CI_Controller {
 			$total_count=$this->post_job_model->subcategory_getcount($title, $location,$days,$category_id,$subcategory_id,$search_title,$search_location,$country,$state,$city);
 			//print_r($total_count);
 		} else {
-			$get_product=$this->Crud_model->GetData('postjob','',"subcategory_id='".$post_id."' and is_delete='0'");
+			$get_product=$this->Crud_model->GetData('postjob','',"subcategory_id='".$post_id."' and is_delete='0' AND status = 'Active'");
 			$total_count=count($get_product);
 			//print_r($get_product);
 		}
@@ -210,7 +210,7 @@ class Welcome extends CI_Controller {
 		}
 		$id = $_POST['id'];
 		$data=array(
-			'user_id'=>$_SESSION['afrebay']['userId'],
+			//'user_id'=>$_SESSION['afrebay']['userId'],
 			'required_key_skills'=>implode(", ",$this->input->post('key_skills',TRUE)),
 			'category_id'=>$this->input->post('category_id',TRUE),
 			'subcategory_id'=>$this->input->post('subcategory_id',TRUE),
@@ -230,7 +230,12 @@ class Welcome extends CI_Controller {
 		);
 		$this->Crud_model->SaveData('postjob', $data, "id='" . $id . "'");
 		$this->session->set_flashdata('message', 'Post Job Updated Successfully !');
-		redirect(base_url('myjob'));
+		if(!empty($_SESSION['afrebay']['afrebay_admin'])) {
+			redirect(base_url('admin/post_job'));
+		} else {
+			redirect(base_url('myjob'));
+		}
+
 	}
 
 	public function get_subcategory() {
@@ -282,7 +287,7 @@ class Welcome extends CI_Controller {
 
 	function post_jobinfo($id) {
 		$post_id=base64_decode($id);
-		$con="postjob.id='".$post_id."' and postjob.is_delete='0'";
+		$con="postjob.id='".$post_id."' and postjob.is_delete='0' AND postjob.status = 'Active'";
 		$data['get_postjob']=$this->post_job_model->viewdata($con);
 		$this->load->view('header');
 		$this->load->view('user_dashboard/jobinfo',$data);
@@ -317,7 +322,7 @@ class Welcome extends CI_Controller {
 	}
 
 	public function filter_job() {
-		$con="postjob.is_delete='0'";
+		$con="postjob.is_delete='0' AND postjob.status = 'Active'";
 		if(isset($_POST['title_keyword'])&& !empty($_POST['title_keyword'])) {
 			$con .=" and postjob.post_title like '%".$_POST['title_keyword']."%'";
 		}

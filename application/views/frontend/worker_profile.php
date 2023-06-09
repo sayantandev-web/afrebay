@@ -21,7 +21,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
     </div>
 </section>
 
-<section class="overlape">
+<section class="overlape freelancer-details-page">
     <div class="block remove-top Worker_Detail">
         <div class="container">
             <div class="row">

@@ -5,28 +5,36 @@
                 <div class="col">
                     <h3 class="page-title"><?= $heading;?></h3>
                 </div>
-                <div class="col-auto text-right"></div>
+                <div class="col-auto text-right">
+                    <a class="btn btn-white filter-btn" href="javascript:void(0);" id="filter_search">
+                        <i class="fas fa-filter"></i>
+                    </a>
+                    <!-- <a href="#" class="btn btn-primary add-button ml-3" data-toggle="modal" data-target="#createModal">
+                        <i class="fas fa-plus"></i>
+                    </a> -->
+                </div>
+                <!-- <div class="col-auto text-right"></div> -->
             </div>
         </div>
 
-        <div class="card filter-card" id="filter_inputs">
+
+        <div class="card filter-card" id="filter_inputs" style="display: block !important;">
             <div class="card-body pb-0">
                 <form action="#" method="post">
                     <div class="row filter-row">
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group">
-                                <label>Category</label>
-                                <select class="form-control select filter_search_data6" name="">
-                                    <option value="">Select category</option>
-                                    <?php
-                                    if(!empty($get_category)){
-                                    foreach($get_category as $item){ ?>
-                                    <option value="<?= $item->id?>"><?= ucfirst($item->category_name)?></option>
-                                    <?php } } ?>
+                                <label>User type</label>
+                                <select class="form-control select filter_search_data6" name="" id='userPaymentListA'>
+                                    <option value="" disabled >Select Type</option>
+                                    <option value="" selected>All</option>
+                                    <option value="1">Freelancer</option>
+                                    <option value="2">Vendor subscription</option>
+                                  
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3">
+                        <!-- <div class="col-sm-6 col-md-3">
                             <div class="form-group">
                                 <label>From Date</label>
                                 <div class="cal-icon">
@@ -41,10 +49,10 @@
                                     <input class="form-control  filter_search_data7" type="date" name="to_date" value="">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group">
-                                <a class="btn btn-primary btn-block" href="<?= admin_url('Category')?>">Refresh</a>
+                                <a class="btn btn-primary btn-block" href="<?= admin_url('payment')?>">Refresh</a>
                             </div>
                         </div>
                     </div>
@@ -62,15 +70,16 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Subscription plan</th>
-                                        <th>Vendor Name</th>
+                                        <th class="changeName">Users Name</th>
                                         <th>Email</th>
-                                        <th>Transaction ID</th>
+                                        <th>User Type</th>
                                         <th>Amount</th>
                                         <th>Date</th>
                                         <th>Expiry Date</th>
                                         <th>Payment Status</th>
+                                        <th>Action</th>
                                     </tr>
-                                </thead>
+                                </thead> 
                                 <tbody>
 
                                 </tbody>
@@ -83,6 +92,34 @@
     </div>
 </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="payment_detail_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Transaction detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form>
+          <div class="form-group">
+            <label for="transaction_id" class="col-form-label">Transaction Id:</label>
+            <input type="text" class="form-control" id="transaction_id" readonly>
+          </div>
+          <div class="form-group">
+            <label for="status" class="col-form-label">Status:</label>
+            <input type="text" class="form-control" id="status" readonly>
+         </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 var url = '<?= admin_url('Payment/ajax_manage_page')?>';
@@ -90,3 +127,18 @@ var actioncolumn=7;
 </script>
 
 <script type="text/javascript" src="<?= base_url('dist/assets/custom_js/user.js')?>"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#userPaymentListA').on('change', function() {
+        var value = $('#userPaymentListA').val();
+        if(value == '1') {
+            $('.changeName').text('Freelance Name');
+        } else if (value == '2') {
+            $('.changeName').text('Vendor Name');
+        } else {
+            $('.changeName').text('Users Name');
+        }
+    })
+})
+</script>

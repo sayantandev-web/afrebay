@@ -39478,6 +39478,7 @@ footer .social {
    background: #fff;
 
    padding: 1.875rem;
+   margin-bottom: 20px;
 
 }
 
@@ -40433,3 +40434,11 @@ border: 0 !important;
 .plan-active-table .active-plan {text-align: center; color: green; font-weight: 500; box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px; border-radius: 30px; width: 46%;}
 .plan-active-table .cnc-plan {color: red; border-radius: 30px; text-align: center; font-weight: 500; box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px; width: 46%;}
 .plan-active-table .cnc-plan:hover {color: #fff; background: red; cursor: pointer;}
+
+.pricing_filter {
+    display: flex; align-items: center; justify-content: end; margin-bottom: 20px;
+}
+
+.pricing_filter label {
+    margin: 0; padding-right: 15px; font-weight: 500;
+}

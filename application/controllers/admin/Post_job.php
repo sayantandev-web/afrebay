@@ -10,9 +10,9 @@ class Post_job extends MY_Controller {
 
 	function index() {
 		//$get_category=$this->Crud_model->GetData('category');
-		$header = array('title' => 'Post Job');
+		$header = array('title' => 'Job Posts');
 		$data = array(
-			'heading' => 'Post Job',
+			'heading' => 'Job Posts',
             //'get_category' => $get_category
         );
         $this->load->view('admin/header', $header);
@@ -50,7 +50,10 @@ class Post_job extends MY_Controller {
                 <label for="rating_\''.$row->id.'\'" class="checktoggle">checkbox</label>
                 </div>';
             }
-			$btn = ''.anchor(base_url('postdetail/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2"><i class="far fa-eye mr-1"></i>View</span>');
+			$btn = ''.anchor(base_url('update-postjob/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2"><i class="far fa-eye mr-1"></i>Edit</span>');
+			$btn .= ''.anchor(base_url('postdetail/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2"><i class="far fa-eye mr-1"></i>Delete</span>');
+			$btn .= ''.anchor(base_url('postdetail/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2"><i class="far fa-eye mr-1"></i>View</span>');
+
 			$no++;
 			$nestedData = array();
 			$nestedData[] = $no;
@@ -72,7 +75,7 @@ class Post_job extends MY_Controller {
     	echo json_encode($output);
 	}
 
-	
+
 
 	function view($id) {
 	 	$con="postjob.id='".base64_decode($id)."'";

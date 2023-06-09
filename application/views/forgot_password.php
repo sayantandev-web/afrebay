@@ -14,7 +14,7 @@
         </div>
     </div>
 </section>
-<section>
+<section class="max_height">
     <div class="block remove-bottom forgot-pass">
         <div class="container">
             <div class="row">

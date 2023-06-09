@@ -26,7 +26,7 @@ class Specialist extends MY_Controller {
 	    $specialist = $_POST['SearchData6'];
         $from_date = $_POST['SearchData5'];
         //print_r($from_date); exit;
-        $to_date = $_POST['SearchData7'];
+        //$to_date = $_POST['SearchData7'];
 
 		if($specialist!='') {
             $cond .=" and specialist.id  = '".$specialist."' ";
@@ -36,9 +36,9 @@ class Specialist extends MY_Controller {
             $cond .=" and specialist.created_date  >= '".date('Y-m-d',strtotime($from_date))."' ";
         }
 
-        if($to_date!='') {
-            $cond .=" and specialist.created_date  <= '".date('Y-m-d',strtotime($to_date))."' ";
-        }
+        // if($to_date!='') {
+        //     $cond .=" and specialist.created_date  <= '".date('Y-m-d',strtotime($to_date))."' ";
+        // }
 
 		$GetData = $this->Specialistmodel->get_datatables($cond);
 

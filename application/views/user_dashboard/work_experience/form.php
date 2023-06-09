@@ -32,7 +32,7 @@
         <form class="form" action="<?= $action; ?>" method="post" id="registrationForm" enctype="multipart/form-data">
             <div class="row row-sm">
                 <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="cardak">
+                    <div class="cardak profile-mobile">
                         <div class="container bootstrap snippet">
                             <div class="new-pro">
                                 <a href="#" class="pull-right">
@@ -60,11 +60,16 @@
                                             </div> -->
                                             <div class="col-lg-6">
                                                 <label for="first_name"><h4>From Date <span style="color: red">*</span></h4></label>
-                                                <input type="date" class="form-control" name="from_date" placeholder="From Date"  value="<?= $from_date; ?>" required onkeydown="return false" />
+                                                <!-- <input type="date" class="form-control" name="from_date" id="from_date" placeholder="From Date"  value="<?= $from_date; ?>" required onkeydown="return false" /> -->
+                                                <input type="date" class="form-control" name="from_date" id="from_date" placeholder="From Date"  value="<?= $from_date; ?>"/>
+                                                <div id="errFromdate">Please enter a valid date</div>
+                                                <div id="errGFromdate">'From Date' cannot be greater than 'To Date'</div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <label for="first_name"><h4>To Date <span style="color: red">*</span></h4></label>
-                                                <input type="date" class="form-control" name="to_date" placeholder="To Date" value="<?= $to_date; ?>" required onkeydown="return false" />
+                                                <!-- <input type="date" class="form-control" name="to_date" id="to_date" placeholder="To Date" value="<?= $to_date; ?>" required onkeydown="return false" /> -->
+                                                <input type="date" class="form-control" name="to_date" id="to_date" placeholder="To Date" value="<?= $to_date; ?>"/>
+                                                <div id="errTodate">Please enter a valid date</div>
                                             </div>
                                             <div class="col-lg-12"><br>
                                                 <label for="first_name"><h4>Description </h4></label>
@@ -79,7 +84,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-xs-12 aksek">
-                                            <button class="post-job-btn pull-right" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Submit</button>
+                                            <button class="post-job-btn pull-right" type="submit" id="work_submit"><i class="glyphicon glyphicon-ok-sign"></i> Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -95,9 +100,14 @@
     </div>
 </section>
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+<style>
+#errFromdate {display: none; color: red;}
+#errTodate {display: none; color: red;}
+#errGFromdate {display: none; color: red;}
+</style>
 <script>
 //CKEDITOR.replace('description');
-$('#description').keyup(function() {  
+$('#description').keyup(function() {
     var characterCount = $(this).val().length,
         current = $('#current'),
         maximum = $('#maximum'),
@@ -130,4 +140,55 @@ $('#description').keyup(function() {
     theCount.css('font-weight','normal');
     }
 });
+
+$(document).ready(function(){
+    $('#work_submit').click(function(){
+        if($('#from_date').val() > $('#to_date').val()) {
+            $('#errGFromdate').show();
+            setTimeout(function(){
+                $('#errGFromdate').hide();
+            }, 2000);
+            return false;
+        } else {
+            var fromdate = $('#from_date').val().split("-");
+            fromday = fromdate[2];
+            frommonth = fromdate[1];
+            fromyear = fromdate[0];
+            testfromDate = (frommonth+'/'+fromday+'/'+fromyear);
+            validateFromDate(testfromDate);
+            if(validateFromDate(testfromDate) == false) {
+                $('#errFromdate').show();
+                setTimeout(function(){
+                    $('#errFromdate').hide();
+                }, 2000);
+                return false;
+            }
+
+            var todate = $('#to_date').val().split("-");
+            today = todate[2];
+            tomonth = todate[1];
+            toyear = todate[0];
+            testtoDate = (tomonth1+'/'+today1+'/'+toyear1);
+            validateToDate(testtoDate);
+            if(validateToDate(testtoDate) == false) {
+                $('#errTodate').show();
+                setTimeout(function(){
+                    $('#errTodate').hide();
+                }, 2000);
+                return false;
+            }
+        }
+    })
+})
+
+function validateFromDate(testfromDate) {
+    var date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/ ;
+    return date_regex.test(testfromDate);
+}
+
+function validateToDate(testtoDate) {
+    var date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/ ;
+    return date_regex.test(testtoDate);
+}
+
 </script>

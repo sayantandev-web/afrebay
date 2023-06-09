@@ -123,8 +123,29 @@ class Home extends MY_Controller {
 		$this->load->view('footer');
 	}
 
+	function getVisIpAddr() {
+    	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        	return $_SERVER['HTTP_CLIENT_IP'];
+    	} else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        	return $_SERVER['HTTP_X_FORWARDED_FOR'];
+    	} else {
+        	return $_SERVER['REMOTE_ADDR'];
+    	}
+	}
+
 	function pricing() {
-		$data['get_subscription'] = $this->Crud_model->GetData('subscription');
+		$vis_ip = $this->getVisIPAddr(); // Store the IP address
+		$ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $vis_ip));
+
+		$countryName = $ipdat->geoplugin_countryName;
+		if($countryName == 'Nigeria') {
+			$cond = " WHERE subscription_country = 'Nigeria'";
+		} else {
+			$cond = " WHERE subscription_country = 'Global'";
+		}
+
+		//$data['get_subscription'] = $this->Crud_model->GetData('subscription');
+		$data['get_subscription'] = $this->db->query("SELECT * FROM subscription ".$cond."")->result_array();
 		$data['subcriber_pack'] = $this->Crud_model->GetData('employer_subscription', '', "employer_id='" . @$_SESSION['afrebay']['userId'] . "'");
 		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='11'");
 		$this->load->view('header');
@@ -214,7 +235,7 @@ class Home extends MY_Controller {
 
 
 	function post_bidding($postid) {
-		
+
 		if(empty($_SESSION['afrebay']['userId'])){
 			$type='admin';
 		}
@@ -605,4 +626,109 @@ class Home extends MY_Controller {
 
 	}
 
+	public function filterByuserType() {
+		$vis_ip = $this->getVisIPAddr(); // Store the IP address
+		$ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $vis_ip));
+
+		$countryName = $ipdat->geoplugin_countryName;
+		$userType = $this->input->post('user_type');
+		if($countryName == 'Nigeria') {
+			if(!empty($userType)) {
+				$cond = " WHERE subscription_country = 'Nigeria' AND subscription_user_type = '".$userType."'";
+			} else {
+				$cond = " WHERE subscription_country = 'Nigeria'";
+			}
+		} else {
+			if(!empty($userType)) {
+				$cond = " WHERE subscription_country = 'Global' AND subscription_user_type = '".$userType."'";
+			} else {
+				$cond = " WHERE subscription_country = 'Global'";
+			}
+		}
+		$getfilterData = $this->db->query("SELECT * FROM subscription ".$cond."")->result_array();
+		if(!empty($getfilterData)) {
+			$html='';
+			foreach ($getfilterData as $key) {
+				$get_service=$this->Crud_model->GetData('subscription_service','',"subscription_id='".$key['id']."'");
+				$html .= "
+				<div class='col-lg-3 col-md-6 col-sm-6 col-xs-12'>
+					<div class='pricetable style2'>
+						<div class='Price_Shadow'></div>
+						<div class='Price_Tag'>
+							<div class='Price_Tag_data'>
+								<h2>".ucfirst($key['subscription_type'])."</h2>
+								<h2>".$key['subscription_amount']."</h2>
+								<span>".$key['subscription_duration']."</span>
+							</div>
+						</div>
+						<div class='pricetable-head'>
+							<img src='https://cdn-icons-png.flaticon.com/512/5673/5673647.png'>
+							<h3>".ucfirst($key['subscription_name'])."</h3>
+						</div>
+						<input type='hidden' name='amount' id='amount".$key['id']."' value='".$key['subscription_amount']."'>
+						<div class='pricing-options'>".$key['subscription_description']."</div>";
+						if(!empty($_SESSION['afrebay']['userType'])) {
+							$subcriber_pack = $this->Crud_model->GetData('employer_subscription', '', "employer_id='" . @$_SESSION['afrebay']['userId'] . "'");
+							if(!empty($subcriber_pack)) {
+								$html .= "<a class='btn btn-info' href='javascript:void(0);' onclick='sub_alert()'>Buy</a>";
+							} else {
+								if($key['subscription_type'] == 'paid') {
+									if(!empty($key['product_key'])) {
+										$html .= "<a class='btn btn-info' href=".base_url('stripe/'.base64_encode($key['price_key'])).">Buy</a>";
+									} else {
+										$html .= "<a class='btn btn-info' href=".base_url('paystack/'.base64_encode($key['plan_code'])).">Buy</a>";
+									}
+								} else {
+									$html .= "<a href='javascript:void(0);' class='btn btn-primary getSubscription_".$key['id']." id='getSubscription_".$key['id'].">Buy</a>";
+									$html .= "<input type='hidden' name='user_id_".$key['id']." id='user_id_".$key['id']." value=".$_SESSION['afrebay']['userId'].">";
+									$html .= "<input type='hidden' name='sub_id_".$key['id']." id='sub_id_".$key['id']." value=".$key['id'].">";
+									$html .= "<input type='hidden' name='sub_name_".$key['id']." id='sub_name_".$key['id']." value=".$key['subscription_name'].">";
+									$html .= "<input type='hidden' name='user_email_".$key['id']." id='user_email_".$key['id']." value=".$_SESSION['afrebay']['userEmail'].">";
+									$html .= "<input type='hidden' name='sub_price_".$key['id']." id='sub_price_".$key['id']." value=".$key['subscription_amount'].">";
+									$html .= "<input type='hidden' name='sub_duration_".$key['id']." id='sub_duration_".$key['id']." value=".$key['subscription_duration'].">";
+								}
+								$this->session->set_userdata('subid', $key['id']);
+								$html .= "<input type='hidden' name='sub_id' value='".$this->session->userdata('subid')."'>";
+							}
+						} else {
+							$html .= "<a class='btn btn-info' href=".base_url('login').">Buy</a>";
+						}
+						$html .= "</div></div>";
+			}
+		} else {
+			$html = "<div class='col-lg-3 col-md-6 col-sm-6 col-xs-12'>No Data Found</div>";
+		}
+		echo $html;
+	}
+
+	public function paystackCheckout($planCode,$price,$email) {
+		//echo $this->input->get('plan_code');
+		$plan_code = base64_decode($planCode);
+		$price = base64_decode($price);
+		$email = base64_decode($email);
+		$url = "https://api.paystack.co/transaction/initialize";
+		$fields = [
+			'email' => $email,
+			'amount' => $price,
+			'plan' => $plan_code
+		];
+
+  		$fields_string = http_build_query($fields);
+		$ch = curl_init();  //open connection
+		curl_setopt($ch,CURLOPT_URL, $url);   //set the url, number of POST vars, POST data
+		curl_setopt($ch,CURLOPT_POST, true);
+		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			"Authorization: Bearer sk_test_b5ecb7ebabe448ed580eacd648227acd1dbcf4fc",
+			"Cache-Control: no-cache",
+		));
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);    //So that curl_exec returns the contents of the cURL; rather than echoing it
+		$result = curl_exec($ch);    //execute post
+		//echo $result;
+		$initialize_data = json_decode($result);
+		$initialization_url = $initialize_data->data->authorization_url;
+		if($result) {
+			header("Location: ".$initialization_url);
+		}
+	}
 }

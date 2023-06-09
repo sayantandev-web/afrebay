@@ -39,7 +39,10 @@
 				<a href="<?=admin_url('services'); ?>"><i class="fas fa-bullhorn"></i> <span> Services</span></a>
 			</li> -->
 			<li <?php if ($seg2 =='payment') {?>class="active"<?php }?>>
-				<a href="<?= admin_url('payment')?>"><i class="fas fa-hashtag"></i> <span>Vendors Subscription</span></a>
+				<!-- <a href="<?= admin_url('payment')?>"><i class="fas fa-hashtag"></i> <span>Vendors Subscription</span></a> -->
+				<a href="<?= admin_url('payment')?>"><i class="fas fa-hashtag"></i><span>List of Subscriptions</span></a>
+
+				
 			</li>
 			<li <?php if ($seg2 =='jobsbidding') {?>class="active"<?php }?>>
 				<a href="<?= admin_url('jobsbidding')?>"><i class="far fa-calendar-check"></i> <span> Jobs Bidding</span></a>

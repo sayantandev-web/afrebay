@@ -19,7 +19,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
     </div>
 </section>
 
-<section>
+<section class="max_height">
     <div class="block no-padding List_Of_Workers Employees_Search_List">
         <div class="container">
             <div class="row no-gape">

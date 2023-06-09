@@ -35,7 +35,7 @@
     <div class="user-dashboard" style="text-align: center;">
         <div class="row row-sm">
             <div class="col-xl-12 col-lg-12 col-md-12">
-                <div class="cardak custom-cardak">
+                <div class="cardak custom-cardak my-jobs-mobile">
                     <table class="table table-modific">
                         <tbody>
                             <?php

@@ -75,7 +75,7 @@ $route['career-tip/(:any)'] = "home/career_tip/$1";
 $route['save'] = "user/login/reg";
 $route['validate'] = "user/login/validate_user";
 $route['logout'] = "user/login/logout";
-$route['profile'] = "user/dashboard/profile";
+$route['profile/(:any)'] = "user/dashboard/profile/$1";
 $route['subscription'] = "user/dashboard/subscription";
 $route['myservice'] = "user/dashboard/myservice";
 $route['myjob'] = "user/dashboard/myjob";
@@ -102,6 +102,7 @@ $route['success/(:any)'] = "stripe/payment_success/$1";
 $route['view_profile'] = "user/dashboard/view_profile";
 $route['update-postjob/(:any)'] = "welcome/update_post_job/$1";
 $route['checkSubscriptionForUser'] = "user/dashboard/checkSubscriptionForUser";
+$route['paystackCheckout/(:any)/(:any)/(:any)'] = "Home/paystackCheckout/$1/$2/$3";
 
 //ADMIN URL
 $route['admin'] = 'admin/login/index';

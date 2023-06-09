@@ -44,7 +44,7 @@ if (!empty($get_banner->image) && file_exists('uploads/banner/' . $get_banner->i
     </div>
 </section>
 
-<section class="dashboard-gig">
+<section class="dashboard-gig Bid-page">
     <div class="text-success-msg f-20" style="text-align: center; margin-bottom: 20px;">
         <?php if ($this->session->flashdata('message')) {
             echo $this->session->flashdata('message');

@@ -201,7 +201,7 @@ class Dashboard extends CI_Controller {
 		}
 		else{
 
-		
+
 		$this->session->set_flashdata('message', 'Profile Updated Successfull !');
 		redirect(base_url('profile'));
 		}
@@ -763,13 +763,13 @@ class Dashboard extends CI_Controller {
 			'description' => $this->input->post('description', TRUE),
 		);
 		$this->Crud_model->SaveData('user_workexperience', $data, "id='" . $id . "'");
-		$this->session->set_flashdata('message', 'Work Updated Successfully !');
+		$this->session->set_flashdata('message', 'Work experience updated successfully !');
 		redirect(base_url('workexperience-list'));
 	}
 
 	function delete_workexperience($id) {
 		$this->Crud_model->DeleteData('user_workexperience', "id='" . $id . "'");
-		$this->session->set_flashdata('message', 'Item deleted successfully !');
+		$this->session->set_flashdata('message', 'Work experience deleted successfully !');
 		redirect(base_url('workexperience-list'));
 	}
 

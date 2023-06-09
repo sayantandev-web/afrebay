@@ -48,9 +48,11 @@ $(document).ready(function() {
 
     table = $('.example_datatable').DataTable({
 
-        
 
 
+        dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
+         "<'row'<'col-sm-12'tr>>" +
+         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "oLanguage": {
             "sProcessing": "<img src='<?= base_url()?>dist/admin_assets/server_side/media/images/ajax-loader.gif'>"
         },
@@ -80,52 +82,39 @@ $(document).ready(function() {
                 d.SearchData9 = $(".filter_search_data9").val();
                 d.SearchData10 = $(".filter_search_data10").val();
                 d.FormData = $(".filter_data_form").serializeArray();
-            }
+            },
 
         },
-        // "columns":[
-        // 	{
-        //     	"sortable": false
-        //     },
-        //     {
-        //     	"sortable": false
-        //     },
-        //     {
-        //     	"sortable": true
-        //     }
-            
-            
-        // ],
-        // "ordering": true,
 
         //Set column definition initialisation properties.
         "columnDefs": [
-            {   
-               
-                
+            {
+
+
                  "targets": [ actioncolumn ], //first column / numbering column
-              
-                
+
+
                  "orderable": false, //set not orderable
 
             },
         ],
     //     // "columnDefs" : [
-    //     // { "type": 'time-date-sort', 
+    //     // { "type": 'time-date-sort',
     //     //   "targets": [2],
     //     // }
-    // ],       
+    // ],
         <?php if(!empty($show)){ ?>
             "fnDrawCallback": function() {
                 var api = this.api()
                 var json = api.ajax.json();
+                // console.log(json);
                 $(".append_ids").val(json.ids);
                 // uni_array();
             },
             <?php } ?>
 
-            
-            
+
+
         });
 
         $(".filter_search_data4").change(function(){
@@ -165,15 +154,23 @@ $(document).ready(function() {
         });
 
     });
-//     $.fn.dataTableExt.oSort['time-date-sort-pre'] = function(value) {      
+//     $.fn.dataTableExt.oSort['time-date-sort-pre'] = function(value) {
 //     return Date.parse(value);
 // };
-// $.fn.dataTableExt.oSort['time-date-sort-asc'] = function(a,b) {      
+// $.fn.dataTableExt.oSort['time-date-sort-asc'] = function(a,b) {
 //     return a-b;
 // };
 // $.fn.dataTableExt.oSort['time-date-sort-desc'] = function(a,b) {
 //     return b-a;
 // };
+function view_detail(transaction_id,status){
+
+
+    $("#transaction_id").val(transaction_id);
+    $("#status").val(status);
+
+    $("#payment_detail_modal").modal('show');
+}
 
     function imageFile()
     {

@@ -22,7 +22,7 @@
     </div>
 </section>
 
-<section>
+<section class="max_height">
     <div class="block Privacy_Policy">
         <div class="container">
             <div class="row">

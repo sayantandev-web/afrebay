@@ -144,8 +144,12 @@
                                     </div>
                                     <div></div>
                                     <div><?= $value->subscription_description; ?></div>
-                                    <?php if($value->subscription_type == 'paid') { ?>
-                                    <a class="btn btn-info" href="<?= base_url('stripe/'.base64_encode($value->price_key))?>">Subscribe</a>
+                                    <?php if($value->subscription_type == 'paid') { 
+                                        if(!empty($value->product_key)) { ?>
+                                            <a class="btn btn-info" href="<?= base_url('stripe/'.base64_encode($value->price_key))?>">Subscribe</a>
+                                            <?php } else { ?>
+                                                <a class="btn btn-info" href="<?= base_url('paystackCheckout/'.base64_encode($value->plan_code).'/'.base64_encode($value->subscription_amount).'/'.base64_encode($_SESSION['afrebay']['userEmail']))?>">Subscribe</a>
+                                            <?php } ?>
                                     <?php } else { ?>
                                     <a href="javascript:void(0);" class="btn btn-primary getSubscription_<?php echo $value->id?>" id="getSubscription_<?php echo $value->id?>">Subscribe</a>
                                     <input type="hidden" name="user_id_<?php echo $value->id?>" id="user_id_<?php echo $value->id?>" value="<?php echo $_SESSION['afrebay']['userId']?>">

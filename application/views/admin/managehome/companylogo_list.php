@@ -24,7 +24,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Company Logo</th>
-                                        <th>Action</th>
+                                        <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>

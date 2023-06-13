@@ -1954,12 +1954,16 @@
     .pricing_filter { padding-right: 20px; }
     .Pricing_Data .plans-sec .pricetable .Price_Tag .Price_Tag_data h2 { font-size: 16px !important; }
     /* freelancer User Dashboard */
-    .User_Sidemenu .hidden-xs.display-table-cell .navi ul li { flex-grow: 1; }
+    .User_Sidemenu .hidden-xs.display-table-cell .navi ul li { flex-grow: 1; width: 200px; }
     .for-mobile-sidemenu .hidden-sm { display: block !important; }
     .dashboard-gig .display-table .display-table-row .display-table-cell.v-align .Education_Btn { margin-top: 10px !important; }
     .dashboard-gig .display-table .display-table-row .display-table-cell.v-align .Work_Btn { margin-top: 10px !important; }
     .User_Sub .custom-table tr td.heading { font-size: 15px !important; }
     .User_Sub .plan-active-table .cnc-plan { font-size: 15px !important; }
+    .Chat_User #frame #sidepanel { min-width: 250px !important; max-width: 250px !important; }
+    .Chat_User #frame .content { width: calc(100% - 250px) !important; }
+    .Chat_User .chat-box { padding: 0 !important; }
+    .Chat_User .User_Sidemenu .display-table-cell { box-shadow: none !important; }
 }
 
 /*************** Smartphone ***************/
@@ -2004,7 +2008,7 @@
     .pricing_filter { padding-right: 20px; }
     .Pricing_Data .plans-sec .pricetable .Price_Tag .Price_Tag_data h2 { font-size: 16px !important; }
     /* freelancer User Dashboard */
-    .User_Sidemenu .hidden-xs.display-table-cell .navi ul li { flex-grow: 1; }
+    .User_Sidemenu .hidden-xs.display-table-cell .navi ul li { flex-grow: 1; width: 145px; }
     .dashboard-gig #navigation .navi i { margin-right: 10px !important; }
     .my-jobs-mobile .bid_contact-profile { display: block !important; position: relative; }    
     .my-jobs-mobile .bid_contact-profile a { position: absolute; width: 100%; left: 35px; top: 20px; }
@@ -2015,5 +2019,18 @@
     .User_Sub .custom-table tr td.btn-option { display: block; }
     .User_Sub .custom-table tr td.btn-option .plan-active-table tr td:nth-child(1) { display: none; }
     .User_Sub .custom-table tr td.btn-option .plan-active-table tr td.cnc-plan { font-size: 13px !important; border-radius: 10px !important; }
-    .User_Sub .Sub_Block { padding: 10px !important; }
+    .User_Sub .Sub_Block { padding: 10px !important; }    
+    .Chat_User .chat-box { padding: 0 !important; }
+    .Chat_User .User_Sidemenu .display-table-cell { box-shadow: none !important; }
+    .Chat_User #frame #sidepanel { width: 100% !important; border-radius: 15px !important; margin-bottom: 15px; height: auto !important; }
+    #frame #sidepanel #contacts { height: 350px !important; overflow: auto !important; }
+    #frame #sidepanel #contacts ul li.contact .wrap { margin: 5px 10px !important; }
+    #frame #sidepanel #profile .wrap { margin: 0 5px !important; }
+    #frame #sidepanel #contacts ul li.contact .wrap .meta { padding: 5px 0 0 10px !important; }
+    .Chat_User #frame #sidepanel #profile .wrap img { width: 50px !important; }
+    .Chat_User #frame #sidepanel #contacts ul li.contact .wrap .meta { display: inline-block !important; }
+    .Chat_User #frame #sidepanel #contacts ul li.contact { padding: 10px 0 10px 0 !important; }
+    #frame .content .message-input .wrap input { padding: 15px 0 15px 15px !important; }
+    .Chat_User #frame .content { width: 100% !important; border-radius: 15px !important; border: 2px solid #f27854c9 !important; box-shadow: none !important; min-width: 100% !important; }
+    .Chat_User #frame .content img.chat-start-img { width: 250px !important; height: 250px !important; }
 }

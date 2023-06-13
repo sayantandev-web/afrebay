@@ -28,7 +28,7 @@
                     <th>#</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Action</th>
+                    <th>Manage</th>
                   </tr>
                 </thead>
                 <tbody>

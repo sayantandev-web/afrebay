@@ -138,7 +138,14 @@ class Login extends CI_Controller {
 				} else if($_SESSION['afrebay']['userType'] == '2') {
 					$check_sub = $this->Crud_model->GetData('employer_subscription', '', "employer_id='".$_SESSION['afrebay']['userId']."'");
 					if(!empty($check_sub)) {
-						redirect('profile');
+						$profile_check = $this->db->query("SELECT `profilePic`, `companyname`, `email`, `mobile`,`address`, `foundedyear`, `teamsize`, `short_bio` FROM `users` WHERE userId = '".@$_SESSION['afrebay']['userId']."'")->result_array();
+                        // if(in_array('', $profile_check[0]))
+                        if(empty($profile_check[0]['companyname']) || empty($profile_check[0]['email']) || empty($profile_check[0]['address']) || empty($profile_check[0]['teamsize'])  || empty($profile_check[0]['short_bio'])) {
+                        	redirect('profile');
+                        } else {
+                        	redirect('dashboard');
+                        }
+						
 					} else {
 						redirect('subscription');
 					}

@@ -213,6 +213,5 @@ function completeSub() {
     setTimeout(function(){
         $('.completeSub').fadeOut('slow');
     },4000);
-
 }
 </script>

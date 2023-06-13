@@ -77,7 +77,7 @@
                                         <th>Date</th>
                                         <th>Expiry Date</th>
                                         <th>Payment Status</th>
-                                        <th>Action</th>
+                                        <th>Manage</th>
                                     </tr>
                                 </thead> 
                                 <tbody>

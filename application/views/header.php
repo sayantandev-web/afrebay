@@ -243,8 +243,13 @@ $(function () {
                                                     <a href="<?=base_url(); ?>subscription" title="">Subscribe</a>
                                                 <?php } else { ?>
                                                     <a href="<?=base_url(); ?>subscription" title="">Subscribe</a>
-                                            <?php } } else { ?>
-                                                <a href="<?=base_url(); ?>profile" title="">Dashboard</a>
+                                            <?php } } else { 
+                                                $profile_check = $this->db->query("SELECT * FROM `users` WHERE userId = '".@$_SESSION['afrebay']['userId']."'")->result_array();
+                                                if(empty($profile_check[0]['companyname']) || empty($profile_check[0]['email']) || empty($profile_check[0]['address']) || empty($profile_check[0]['teamsize'])  || empty($profile_check[0]['short_bio'])) { ?>
+                                                <a href="<?=base_url(); ?>profile" title="">Profile</a>
+                                                <?php } else { ?>
+                                                <a href="<?=base_url(); ?>dashboard" title="">Dashboard</a>
+                                                <?php } ?>
                                             <?php } ?>
                                         </li>
                                         <li>

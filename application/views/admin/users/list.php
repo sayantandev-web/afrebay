@@ -78,7 +78,7 @@
                                     <th>Phone</th>
                                     <th>Created Date</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Manage</th>
                                 </tr>
                             </thead>
                             <tbody>

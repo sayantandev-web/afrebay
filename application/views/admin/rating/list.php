@@ -74,7 +74,7 @@
                                         <th>#</th>
                                         <th>Rating Name</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>

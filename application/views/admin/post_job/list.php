@@ -29,7 +29,7 @@
                                     <th>Duration</th>
                                     <th>Approximate Remuneration</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Manage</th>
                                 </tr>
                             </thead>
                             <tbody>

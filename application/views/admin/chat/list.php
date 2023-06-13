@@ -60,7 +60,7 @@
                                         <th>Vendor</th>
                                         <th>Freelancer</th>
                                         <th>Initiated Date</th>
-                                        <th>Action</th>
+                                        <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -64,12 +64,12 @@
                         <div class="card-body">
                             <div>
                                 <table id="table" class="table table-hover table-center mb-0 example_datatable" >
-                                    <thead>
+                                    <thead class="sticky">
                                         <tr>
                                             <th>#</th>
                                             <th>Specialization</th>
                                             <th>Date</th>
-                                            <th>Action</th>
+                                            <th>Manage</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -161,6 +161,13 @@ var actioncolumn=3;
 <script type="text/javascript" src="<?= base_url('dist/assets/custom_js/specialist.js')?>"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
+$(window).scroll(function(){
+    var sticky = $('.sticky'),
+    scroll = $(window).scrollTop();
+    if (scroll >= 100) sticky.addClass('sticky_thead');
+    else sticky.removeClass('sticky_thead');
+});
+
 $('#refreshForm').click(function(){
     $('#categorySearch').trigger("reset");
     $('.filter_search_data6').val('').trigger('change');

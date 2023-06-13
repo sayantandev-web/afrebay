@@ -24,7 +24,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Banner Name</th>
-                                        <th>Action</th>
+                                        <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>

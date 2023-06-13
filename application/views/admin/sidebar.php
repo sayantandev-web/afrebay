@@ -63,7 +63,7 @@
 				<a href="#"><i class="fas fa-user-tie"></i> <span> Service Providers</span></a>
 			</li> -->
 			<li <?php if ($seg2 =='users') {?>class="active"<?php }?>>
-				<a href="<?=admin_url(); ?>users"><i class="fas fa-user"></i> <span>Users List</span></a>
+				<a href="<?=admin_url(); ?>users"><i class="fas fa-user"></i> <span>Users</span></a>
 			</li>
 			<li <?php if ($seg2 =='our-services') {?>class="active"<?php }?>>
 				<a href="<?=admin_url(); ?>our-services"><i class="fas fa-bullhorn"></i> <span>Our Services</span></a>

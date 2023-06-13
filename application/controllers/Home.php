@@ -235,28 +235,29 @@ class Home extends MY_Controller {
 
 
 	function post_bidding($postid) {
-
-		if(empty($_SESSION['afrebay']['userId'])){
+		if(!empty($_SESSION['afrebay_admin']['id'])){
 			$type='admin';
-		}
-		else{
+		} else if(!empty($_SESSION['afrebay']['userId'])) {
 			$type='user';
+		} else {
+			$type='nouser';
 		}
 		$con = "postjob.id='" . base64_decode($postid) . "'";
 		$data['post_data'] = $this->post_job_model->viewdata($con);
-		// print_r($data['post_data']);die;
+		//print_r($data['post_data']);die;
 		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='14'");
 
 		if($type=='admin'){
-		$this->load->view('admin_header',$data);
-		$data['type']='admin';
+			$this->load->view('admin_header',$data);
+			$data['type']='admin';
+		} else if($type=='user') {
+			$this->load->view('header',$data);
+			$data['type']='user';
+		} else {
+			$this->load->view('header',$data);
+			$data['type']='';
 		}
-		else{
-		$this->load->view('header',$data);
-		$data['type']='user';
 
-
-		}
 		$this->load->view('frontend/post_detail', $data);
 		$this->load->view('footer');
 	}

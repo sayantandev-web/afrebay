@@ -28,7 +28,7 @@
                                     <th>Category Name</th>
                                     <th>Service Image</th>
                                     <th>Description</th>
-                                    <th>Action</th>
+                                    <th>Manage</th>
                                 </tr>
                             </thead>
                             <tbody>

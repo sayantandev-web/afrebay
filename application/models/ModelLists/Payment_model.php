@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Payment_model extends My_Model {
-    var $column_order = array(null,'emp.name_of_card','users.companyname','emp.email','emp.transaction_id','emp.amount','emp.payment_date','emp.expiry_date','emp.payment_status'); //set column field database for datatable orderable
+    var $column_order = array(null,'emp.name_of_card','users.companyname','emp.email','users.userType','emp.transaction_id','emp.amount','emp.payment_date','emp.expiry_date','emp.payment_status'); //set column field database for datatable orderable
 
     var $order = array('emp.id' => 'DESC');
 
@@ -26,6 +26,7 @@ class Payment_model extends My_Model {
                 $cond.=" ( emp.name_of_card LIKE '%".trim($show_string)."%' ";
                 $cond.=" OR  emp.email LIKE '%".trim($show_string)."%' ";
                 $cond.=" OR  subscription.subscription_name LIKE '%".trim($show_string)."%' ";
+                $cond.=" OR  users.userType LIKE '%".trim($show_string)."%' ";
                 $cond.=" OR  emp.transaction_id LIKE '%".trim($show_string)."%' ";
                 $cond.=" OR  emp.payment_date LIKE '%".trim(date('Y-m-d',strtotime($show_string)))."%' ";
                 $cond.=" OR  emp.payment_status LIKE '%".trim($show_string)."%' ";

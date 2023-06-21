@@ -1,34 +1,21 @@
 <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="<?=base_url(); ?>dist/assets/js/jquery-3.5.0.min.js"></script>
-
 <script src="<?=base_url(); ?>dist/assets/js/popper.min.js"></script>
 <script src="<?=base_url(); ?>dist/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-
 <script src="<?=base_url(); ?>dist/assets/js/moment.min.js"></script>
 <script src="<?=base_url(); ?>dist/assets/js/bootstrap-datetimepicker.min.js"></script>
-
 <script src="<?=base_url(); ?>dist/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
 <script src="<?=base_url(); ?>dist/assets/plugins/datatables/datatables.min.js"></script>
 <script src="<?= base_url('dist/assets/js/bootstrapValidator.min.html')?>"></script>
 <script src="<?= base_url('dist/assets/js/select2.min.js')?>"></script>
 <script src="<?= base_url('dist/assets/js/admin.js')?>"></script>
-
 <!-- server side table script -->
-
 <script src="<?php echo base_url('dist/admin_assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js')?>"></script>
 <script src="<?php echo base_url('dist/admin_assets/plugins/daterangepicker/daterangepicker.js')?>"></script>
-
 <script src="<?php echo base_url('dist/admin_assets/plugins/bootstrap-select/bootstrap-select.min.js')?>"></script>
 <script src="<?php echo base_url('dist/admin_assets/plugins/multiselect/js/jquery.multi-select.js')?>"></script>
-
 <!-- end server side table script -->
-
 <input type="hidden" name="admin_url" id="admin_url" value="<?= admin_url();?>">
-
-
-
-
 <script src="<?= base_url();?>dist/assets/notify/notify.min.js"></script>
 <script type="text/javascript">
 // alert();
@@ -37,33 +24,21 @@ $(document).ready(function(){
     if(sessionMessage==null || sessionMessage=="" ){ return false;}
     $.notify(sessionMessage,{ position:"top right",className: 'success' });//session msg
 });
-
-
 </script>
 
 <script type="text/javascript" language="javascript" class="init">
 $(document).ready(function() {
-
     $(".msghide").fadeOut(8000);
-
     table = $('.example_datatable').DataTable({
-
-
-
-        dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
-         "<'row'<'col-sm-12'tr>>" +
-         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "oLanguage": {
             "sProcessing": "<img src='<?= base_url()?>dist/admin_assets/server_side/media/images/ajax-loader.gif'>"
         },
-
         "stateSave": true,
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
          "order": [], //Initial no order.
         "lengthMenu" : [[10,25, 100,200,500,1000,2000], [10,25, 100,200,500,1000,2000 ]],"pageLength" : 10,
-        // "searching":true,
-        // Load data for the table's content from an Ajax source
         "ajax": {
             "url": url,
             "type": "POST",
@@ -83,163 +58,123 @@ $(document).ready(function() {
                 d.SearchData10 = $(".filter_search_data10").val();
                 d.FormData = $(".filter_data_form").serializeArray();
             },
-
         },
-
         //Set column definition initialisation properties.
-        "columnDefs": [
-            {
-
-
-                 "targets": [ actioncolumn ], //first column / numbering column
-
-
-                 "orderable": false, //set not orderable
-
-            },
-        ],
-    //     // "columnDefs" : [
-    //     // { "type": 'time-date-sort',
-    //     //   "targets": [2],
-    //     // }
-    // ],
+        "columnDefs": [{
+            "targets": [ actioncolumn ], //first column / numbering column
+            "orderable": false, //set not orderable
+            }],
         <?php if(!empty($show)){ ?>
             "fnDrawCallback": function() {
                 var api = this.api()
                 var json = api.ajax.json();
-                // console.log(json);
                 $(".append_ids").val(json.ids);
-                // uni_array();
             },
-            <?php } ?>
-
-
-
-        });
-
-        $(".filter_search_data4").change(function(){
-            table
-            .draw();
-
-        });
-        $(".filter_search_data5").change(function(){
-            table
-            .draw();
-
-        });
-        $(".filter_search_data6").change(function(){
-            table
-            .draw();
-
-        });
-        $(".filter_search_data7").change(function(){
-            table
-            .draw();
-
-        });
-        $(".filter_search_data8").change(function(){
-            table
-            .draw();
-
-        });
-        $(".filter_search_data9").change(function(){
-            table
-            .draw();
-
-        });
-        $(".filter_search_data10").change(function(){
-            table
-            .draw();
-
-        });
-
+        <?php } ?>
     });
-//     $.fn.dataTableExt.oSort['time-date-sort-pre'] = function(value) {
-//     return Date.parse(value);
-// };
-// $.fn.dataTableExt.oSort['time-date-sort-asc'] = function(a,b) {
-//     return a-b;
-// };
-// $.fn.dataTableExt.oSort['time-date-sort-desc'] = function(a,b) {
-//     return b-a;
-// };
-function view_detail(transaction_id,status){
 
+    $(".filter_search_data4").change(function(){
+        table
+        .draw();
+    });
 
+    $(".filter_search_data5").change(function(){
+        table
+        .draw();
+    });
+
+    $(".filter_search_data6").change(function(){
+        table
+        .draw();
+    });
+
+    $(".filter_search_data7").change(function(){
+        table
+        .draw();
+    });
+
+    $(".filter_search_data8").change(function(){
+        table
+        .draw();
+    });
+
+    $(".filter_search_data9").change(function(){
+        table
+        .draw();
+    });
+
+    $(".filter_search_data10").change(function(){
+        table
+        .draw();
+    });
+});
+
+function view_detail(transaction_id,status,invoice_pdf){
     $("#transaction_id").val(transaction_id);
     $("#status").val(status);
-
+    $("#download_invoice").attr("href", invoice_pdf);
     $("#payment_detail_modal").modal('show');
 }
 
-    function imageFile()
-    {
+function imageFile() {
         // alert("hi");
-        $('#image').change(function () {
-            var files = this.files;
-            var reader = new FileReader();
-            name=this.value;
-            //validation for photo upload type
-            var filetype = name.split(".");
-            ext = filetype[filetype.length-1];  //alert(ext);return false;
-            if(!(ext=='jpg') && !(ext=='png') && !(ext=='PNG') && !(ext=='jpeg') && !(ext=='img') && !(ext=='JPEG'))
-            {
-                $("#image_err").html("Please select proper type like jpg, png, jpeg image");
-                setTimeout(function(){$("#image_err").html("&nbsp;")},8000);
-                $("#image").val("");
-                return false;
-            }
-            reader.readAsDataURL(files[0]);
-        });
-    }
-    //Timepicker
-    $('.timepicker').timepicker({
-        showInputs: false
-    })
-    $( ".dob" ).datepicker({
-        defaultDate: "today",
-        endDate: 'today',
-        format: 'yyyy-mm-dd',
-        minDate:0,
-        endDate: "today",
-        changeMonth: true,
-        changeYear: true,
-        autoclose: true
-    });
-    $( ".datepick" ).datepicker({
-        /*endDate: 'today',*/
-        format: 'yyyy-mm-dd',
-        minDate: 'today',
-        /* endDate: "today",*/
-        changeMonth: true,
-        changeYear: true,
-        autoclose: true
-    });
-
-    $(document).ready(function(){
-        // $('.preloader').fadeOut('fast');
-        $('.select2').select2();
-        // rate_live();
-        var dob_n =$("#dob").val();
-
-        if (dob_n!="0000:00:00" && dob_n!=undefined) {
-            // alert(dob_n);
-            ageCalculator(dob_n);
-        }else{
+    $('#image').change(function () {
+        var files = this.files;
+        var reader = new FileReader();
+        name=this.value;
+        //validation for photo upload type
+        var filetype = name.split(".");
+        ext = filetype[filetype.length-1];  //alert(ext);return false;
+        if(!(ext=='jpg') && !(ext=='png') && !(ext=='PNG') && !(ext=='jpeg') && !(ext=='img') && !(ext=='JPEG')) {
+            $("#image_err").html("Please select proper type like jpg, png, jpeg image");
+            setTimeout(function(){$("#image_err").html("&nbsp;")},8000);
+            $("#image").val("");
+            return false;
         }
-        //changeLiveRateAlert(id);
-        //$(".select2-container").css("vertical-align", "none");
+        reader.readAsDataURL(files[0]);
     });
-    /*$(function () {
-    CKEDITOR.replace('editor1');
-});*/
+}
+//Timepicker
+$('.timepicker').timepicker({
+    showInputs: false
+})
+
+$( ".dob" ).datepicker({
+    defaultDate: "today",
+    endDate: 'today',
+    format: 'yyyy-mm-dd',
+    minDate:0,
+    endDate: "today",
+    changeMonth: true,
+    changeYear: true,
+    autoclose: true
+});
+
+$( ".datepick" ).datepicker({
+    /*endDate: 'today',*/
+    format: 'yyyy-mm-dd',
+    minDate: 'today',
+    /* endDate: "today",*/
+    changeMonth: true,
+    changeYear: true,
+    autoclose: true
+});
+
+$(document).ready(function(){
+    $('.select2').select2();
+    var dob_n =$("#dob").val();
+    if (dob_n!="0000:00:00" && dob_n!=undefined) {
+        ageCalculator(dob_n);
+    } else {
+    }
+});
+
 $('.dateee').datepicker({
     multidate: true,
     format: 'dd-mm-yyyy',
     multidate:3,
     closeOnDateSelect:true
 });
-
 
 $('.datepicker_date').datepicker({
     // multidate: true,
@@ -250,7 +185,6 @@ $('.datepicker_date').datepicker({
     autoclose: true
 });
 
-
 $('.datepicker_date1').datepicker({
     // multidate: true,
     format: 'dd-mm-yyyy',
@@ -258,22 +192,7 @@ $('.datepicker_date1').datepicker({
     changeYear: true,
     autoclose: true
 });
-
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
-
 </html>

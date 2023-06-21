@@ -50,9 +50,9 @@ class Post_job extends MY_Controller {
                 <label for="rating_\''.$row->id.'\'" class="checktoggle">checkbox</label>
                 </div>';
             }
-			$btn = ''.anchor(base_url('update-postjob/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2"><i class="far fa-eye mr-1"></i>Edit</span>');
-			$btn .= ''.anchor(base_url('postdetail/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2"><i class="far fa-eye mr-1"></i>Delete</span>');
-			$btn .= ''.anchor(base_url('postdetail/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2"><i class="far fa-eye mr-1"></i>View</span>');
+			$btn = ''.anchor(base_url('postdetail/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2" title="View"><i class="far fa-eye mr-1"></i></span>');
+			$btn .= ''.anchor(base_url('update-postjob/'.base64_encode($row->id)),'<span class="btn btn-sm bg-success-light mr-2" title="Edit"><i class="far fa-edit mr-1"></i></span>');
+			$btn .= ''.anchor(base_url('admin/deletepostdetail/'.base64_encode($row->id)),'<span class="btn btn-sm bg-danger-light mr-2" title="Delete" onclick="return confirm("Are you sure you want to delete this item?");"><i class="fa fa-trash mr-1"></i></span>');
 
 			$no++;
 			$nestedData = array();
@@ -90,6 +90,14 @@ class Post_job extends MY_Controller {
 		$this->load->view('admin/sidebar');
 		$this->load->view('admin/post_job/view',$data);
 		$this->load->view('admin/footer');
+	 }
+
+	 function deletepostdetail($id) {
+	 	$con="postjob.id='".base64_decode($id)."'";
+	 	$query = $this->db->query("DELETE FROM postjob WHERE ".$con."");
+	 	if($query) {
+	 		redirect('admin/post_job');
+	 	}
 	 }
 }
 ?>

@@ -1,12 +1,14 @@
 <?php
+error_reporting(0);
 if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->image)){
     $banner_img=base_url("uploads/banner/".$get_banner->image);
-} else{
-    $banner_img= 'base_url("assets/images/resource/mslider1.jpg")';
+} else {
+    $banner_img=base_url("assets/images/resource/mslider1.jpg");
 } ?>
+
 <section class="overlape">
     <div class="block no-padding">
-        <div data-velocity="-.1" style="background: url('<?php $banner_img ?>') repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div>
+        <div data-velocity="-.1" style="background: url('<?= $banner_img ?>') repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div>
         <!-- PARALLAX BACKGROUND IMAGE -->
         <div class="container fluid">
             <div class="row">
@@ -33,10 +35,10 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                             <h3>Update Posted Job</h3>
                             <?php } ?>
                             <span class="text-success-msg f-20" style="text-align: center;">
-                                <?php if($this->session->flashdata('message')) {
-                                    echo $this->session->flashdata('message');
-                                    unset($_SESSION['message']);
-                                } ?>
+                            <?php if($this->session->flashdata('message')) {
+                                echo $this->session->flashdata('message');
+                                unset($_SESSION['message']);
+                            } ?>
                             </span>
                         </div>
                         <div class="profile-form-edit post-job-page">
@@ -48,7 +50,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                             <?php } ?>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <span class="pf-title">Job Title<span style="color:red;">*</span></span>
+                                        <span class="pf-title">Job Title <span style="color:red;">*</span></span>
                                         <div class="pf-field">
                                             <input type="text" placeholder="Enter Job Title" name="post_title" id="post_title" class="form-control " value="<?= @$post_title; ?>" data-role="tagsinput" required/>
                                         </div>
@@ -60,7 +62,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <span class="pf-title">Required Key Skills<span style="color:red;">*</span></span>
+                                        <span class="pf-title">Required Key Skills <span style="color:red;">*</span></span>
                                         <div class="pf-field custom-select">
                                             <select class="form-control key_skills" multiple="multiple" name="key_skills[]" id="key_skills" style="width: 100%;">
                                             <!-- <?php foreach($getkey_skills as $val) {?>
@@ -71,7 +73,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                             foreach($skills as $val) {?>
                                                 <option value="<?php echo $val->specialist_name; ?>"
                                                 <?php if(!empty($key_skills)) {
-                                                if(!empty($skills)){
+                                                    if(!empty($skills)){
                                                         $vskills = explode(", ", $key_skills);
                                                         for($i=0; $i<count($vskills); $i++) {
                                                             if($vskills[$i] == $val->specialist_name){
@@ -97,7 +99,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <span class="pf-title">Categories<span style="color:red;">*</span></span>
+                                        <span class="pf-title">Categories <span style="color:red;">*</span></span>
                                         <div class="pf-field">
                                             <select data-placeholder="Please Select Category" class="form-control" name="category_id" onchange="get_subcategory(this.value)" required>
                                                 <option value="">Select Category</option>
@@ -110,13 +112,13 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <span class="pf-title">Sub Categories<span style="color:red;">*</span></span>
+                                        <span class="pf-title">Sub Categories <span style="color:red;">*</span></span>
                                         <div class="pf-field">
                                             <select data-placeholder="Please Select " class="form-control" name="subcategory_id" value="" id="subcategory_id" required>
                                                 <?php if(empty($id)) { ?>
                                                 <option>Select Subcategory</option>
                                                 <?php } else { ?>
-                                                    <option>Select Subcategory</option>
+                                                <option>Select Subcategory</option>
                                                     <?php
                                                     $getsubcategory = $this->Crud_model->GetData('sub_category', 'id, sub_category_name', "");
                                                     foreach($getsubcategory as $key) {?>
@@ -127,7 +129,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <span class="pf-title">Application Deadline Date<span style="color:red;">*</span></span>
+                                        <span class="pf-title">Application Deadline Date <span style="color:red;">*</span></span>
                                         <div class="pf-field">
                                             <input type="date" placeholder="Enter Complete Address" name="appli_deadeline" class="form-control datepicker" value="<?= @$appli_deadeline; ?>" required/>
                                         </div>
@@ -141,57 +143,62 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <span class="pf-title">Country<span style="color:red;">*</span></span>
+                                        <span class="pf-title">Country <span style="color:red;">*</span></span>
                                         <div class="pf-field">
                                             <select class="form-control" name="country-dropdown" id="country-dropdown" style="width: 100%;">
                                                 <option value="">Select Country</option>
                                             <?php
                                             $get_country = $this->Crud_model->GetData('countries', 'id, name', "");
                                             foreach($get_country as $val) {?>
-                                                <option value="<?php echo $val->name; ?>" <?php if($val->name == $countries) {echo "selected"; }?>><?php echo $val->name;?></option>
+                                                <option value="<?php echo $val->name; ?>" <?php if($val->name == @$countries) {echo "selected"; }?>><?php echo $val->name;?></option>
                                             <?php } ?>
                                             </select>
+                                            <input type="hidden" id="select_country_dropdown" value="<?php echo @$countries; ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <span class="pf-title">State<span style="color:red;">*</span></span>
+                                        <span class="pf-title">State <span style="color:red;">*</span></span>
                                         <div class="pf-field">
                                             <select class="form-control" name="state-dropdown" id="state-dropdown">
                                             <?php if(empty($id)) { ?>
                                                 <option value="">Select State</option>
                                                 <?php } else { ?>
                                                 <option>Select State</option>
+                                                <!-- <option value="<?= $state; ?>" selected><?php echo $state;?></option> -->
                                                 <?php
-                                                $get_state = $this->Crud_model->GetData('states', 'id, name', "");
-                                                foreach($get_state as $key) {?>
-                                                    <option value="<?= $key->name; ?>" <?php if($key->name == $state) {echo "selected"; }?>><?php echo $key->name;?></option>
-                                                <?php } ?>
+                                                //$get_state = $this->Crud_model->GetData('states', 'id, name', "");
+                                                //foreach($get_state as $key) {?>
+                                                    <!-- <option value="<?= $key->name; ?>" <?php if($key->name == @$state) {echo "selected"; }?>><?php echo $key->name;?></option> -->
+                                                <?php //} ?>
                                             <?php } ?>
                                             </select>
+                                            <input type="hidden" id="select_state_dropdown" value="<?php echo @$state; ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <span class="pf-title">City<span style="color:red;">*</span></span>
+                                        <span class="pf-title">City <span style="color:red;">*</span></span>
                                         <div class="pf-field">
                                             <select class="form-control" name="city-dropdown" id="city-dropdown">
                                                 <?php if(empty($id)) { ?>
                                                     <option value="">Select City</option>
                                                     <?php } else { ?>
                                                     <option>Select City</option>
+                                                    <!-- <option value="<?= $cities; ?>" selected><?php echo $cities;?></option> -->
                                                     <?php
-                                                    $get_cities = $this->Crud_model->GetData('cities', 'id, name', "");
-                                                    foreach($get_cities as $key) {?>
-                                                        <option value="<?= $key->name; ?>" <?php if($key->name == $cities) {echo "selected"; }?>><?php echo $key->name;?></option>
-                                                    <?php } ?>
+                                                    //$get_cities = $this->Crud_model->GetData('cities', 'id, name', "");
+                                                    //foreach($get_cities as $key) {?>
+                                                        <!-- <option value="<?= $key->name; ?>" <?php if($key->name == @$cities) {echo "selected"; }?>><?php echo $key->name;?></option> -->
+                                                    <?php //} ?>
                                                 <?php } ?>
                                             </select>
+                                            <input type="hidden" id="select_city_dropdown" value="<?php echo @$cities; ?>">
                                         </div>
                                     </div>
                                 </div>
                                     <div class="contact-edit">
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <span class="pf-title">Find On Map<span style="color:red;">*</span></span>
+                                                <span class="pf-title">Find On Map <span style="color:red;">*</span></span>
                                                 <div class="pf-field">
                                                     <input type="text" placeholder="Collins Street West, Victoria 8007, Australia." name="location" value="<?= @$location; ?>" id="location"  required autocomplete="off"/>
                                                 </div>
@@ -205,7 +212,7 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                             <div class="col-lg-3">
                                                 <span class="pf-title">Longitude</span>
                                                 <div class="pf-field">
-                                                    <input type="text" id="search_lon"   placeholder="21.1589654" name="longitude" value="<?= @$longitude; ?>"/>
+                                                    <input type="text" id="search_lon" placeholder="21.1589654" name="longitude" value="<?= @$longitude; ?>"/>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
@@ -214,7 +221,6 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                             <div class="col-lg-12">
                                                 <span class="pf-title">Maps</span>
                                                 <div class="pf-map" id="map">
-
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
@@ -225,7 +231,6 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
                                     </div>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -289,5 +294,38 @@ $(document).ready(function() {
             }
         });
     });
+
+    if($('#select_country_dropdown').val() != '') {
+        var country_name = $('#select_country_dropdown').val();
+        $.ajax({
+            url: "<?php echo base_url()?>Welcome/states_by_country",
+            type: "POST",
+            data: {
+                country_name: country_name
+            },
+            cache: false,
+            success: function(result){
+                //console.log(result);
+                $("#state-dropdown").html(result);
+                $("#state-dropdown").val(state_name);
+            }
+        });
+    }
+
+    if($('#select_state_dropdown').val() != '') {
+        var state_name = $('#select_state_dropdown').val();
+        $.ajax({
+            url: "<?php echo base_url()?>Welcome/cities_by_state",
+            type: "POST",
+            data: {
+                state_name: state_name
+            },
+            cache: false,
+            success: function(result){
+                $("#city-dropdown").html(result);
+                $("#city-dropdown").val($('#select_city_dropdown').val());
+            }
+        });
+    }
 });
 </script>

@@ -80,7 +80,7 @@ class Users_model extends My_Model {
     }
 
     function get_jobbidding($cond) {
-        $this->db->select('job_bid.*,job_bid.user_id as userid,users.username,CONCAT(users.firstname," ",users.lastname) as full_name,users.profilePic,postjob.user_id,postjob.id as post_id');
+        $this->db->select('job_bid.*,job_bid.user_id as userid,users.username,CONCAT(users.firstname," ",users.lastname) as full_name,users.profilePic,postjob.user_id,postjob.id as post_id,postjob.post_title as post_title');
         $this->db->from('job_bid');
         $this->db->join('postjob','postjob.id=job_bid.postjob_id','left');
         $this->db->join('users','users.userId=job_bid.user_id','left');

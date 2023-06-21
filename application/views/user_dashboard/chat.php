@@ -75,104 +75,107 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <div class="chatList">
+                                                    <!-- <div class="chatList">
                                                         <?php if (!empty($get_user->firstname)) { ?>
                                                         <a href="javascript:void(0)" id="showBidList">My Bid List</a>
                                                         <?php } ?>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div id="search">
                                                    <!--  <span class="char-sea"><i class="fa fa-search" aria-hidden="true"></i></span> -->
-                                                   <input type="text" placeholder="Search contacts..." />
+                                                   <input type="text" placeholder="Search by Contacts and Job ID" />
                                                 </div>
                                                 <div id="contacts">
                                                     <ul>
                                                     <?php if (!empty($get_jobbid)) {
                                                     foreach ($get_jobbid as $user) {
-                                                        if ($user->postjob_id == $user->post_id && $user->user_id == $_SESSION['afrebay']['userId'] && $user->bidding_status == 'Accept') {
+                                                        //if ($user->postjob_id == $user->post_id && $user->user_id == $_SESSION['afrebay']['userId'] && $user->bidding_status == 'Accept') {
+                                                        if ($user->postjob_id == $user->post_id && $user->user_id == $_SESSION['afrebay']['userId'] && ($user->bidding_status == 'Selected' || $user->bidding_status == 'Short Listed')) {
                                                             $get_user = $this->Crud_model->get_single('users', "userId='" . $user->userid . "'");
-                                                            $get_msg = $this->Crud_model->GetData('chat', '', "userto_id='" . $user->userid . "' and userfrom_id='" . $user->user_id . "'", '', 'id desc', '', '1');
-                                                    ?>
-                                                    <li class="contact" onclick="return getuser('<?= $user->userid ?>');">
-                                                        <div class="wrap">
-                                                            <span class="contact-status online"></span>
-                                                            <?php if (@$user->profilePic && file_exists('uploads/users/' . @$user->profilePic)) { ?>
-                                                            <img src="<?= base_url('uploads/users/' . @$user->profilePic) ?>" alt="" />
-                                                            <?php } else { ?>
-                                                            <img src="<?= base_url('uploads/users/user.png') ?>" alt="" />
-                                                            <?php } ?>
-                                                            <div class="meta">
-                                                                <p class="name">
-                                                                <?php if (!empty($get_user->firstname)) {
-                                                                    echo ucfirst($get_user->firstname . ' ' . $get_user->lastname);
-                                                                } else {
-                                                                    echo ucfirst($get_user->companyname);
-                                                                } ?>
-                                                                </p>
-                                                                <p class="preview"><?= !empty($get_msg->message) ? $get_msg->message : ''; ?></p>
+                                                            $get_msg = $this->Crud_model->GetData('chat', '', "userto_id='".$user->userid."' and userfrom_id='".$user->user_id."' and postjob_id = '".$user->post_id."'", '', 'id desc', '', '1');
+                                                        ?>
+                                                        <li class="contact" onclick="return getuser('<?= $user->userid ?>','<?= $user->post_id ?>');">
+                                                            <div class="wrap">
+                                                                <span class="contact-status online"></span>
+                                                                <?php if (@$user->profilePic && file_exists('uploads/users/' . @$user->profilePic)) { ?>
+                                                                <img src="<?= base_url('uploads/users/' . @$user->profilePic) ?>" alt="" />
+                                                                <?php } else { ?>
+                                                                <img src="<?= base_url('uploads/users/user.png') ?>" alt="" />
+                                                                <?php } ?>
+                                                                <div class="meta">
+                                                                    <p class="name">
+                                                                    <?php if (!empty($get_user->firstname)) {
+                                                                        echo ucfirst($get_user->firstname . ' ' . $get_user->lastname);
+                                                                    } else {
+                                                                        echo ucfirst($get_user->companyname);
+                                                                    } ?>
+                                                                    </p>
+                                                                    <p class="preview" title="<?= $user->post_title; ?>">Job ID : <?= "Job_".sprintf("%03d",$user->post_id); ?></p>
+                                                                    <p class="preview"><?= !empty($get_msg->message) ? $get_msg->message : ''; ?></p>
+                                                                    <input type="hidden" name="postjob_id" id="postjob_id" value="<?= $user->post_id; ?>">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
-                                                    <?php } else if ($user->postjob_id == $user->post_id && $user->userid == $_SESSION['afrebay']['userId'] && $user->bidding_status == 'Accept') {
-                                                        $get_user = $this->Crud_model->get_single('users', "userId='" . $user->user_id . "'");
-                                                        $get_msg1 = $this->Crud_model->GetData('chat', '', "userfrom_id='" . $user->user_id . "' and userto_id='" . $user->userid . "'", '', 'id desc', '', '1');
-                                                    ?>
-                                                    <li class="contact" onclick="return getuser('<?= $get_user->userId ?>');">
-                                                        <div class="wrap">
-                                                            <span class="contact-status online"></span>
-                                                            <?php if (@$get_user->profilePic && file_exists('uploads/users/' . @$get_user->profilePic)) { ?>
-                                                            <img src="<?= base_url('uploads/users/' . @$get_user->profilePic) ?>" alt="" />
-                                                            <?php } else { ?>
-                                                            <img src="<?= base_url('uploads/users/user.png') ?>" alt="" />
-                                                            <?php } ?>
-                                                            <div class="meta">
-                                                                <p class="name">
-                                                                <?php if (!empty($get_user->firstname)) {
-                                                                    echo ucfirst($get_user->firstname . ' ' . $get_user->lastname);
-                                                                } else {
-                                                                    echo ucfirst($get_user->companyname);
-                                                                } ?>
-                                                                </p>
-                                                                <p class="preview"><?= !empty($get_msg1->message) ? $get_msg1->message : ''; ?></p>
-                                                         </div>
-                                                      </div>
-                                                   </li>
-                                                <?php } ?>
-                                          <?php }
-                                          } ?>
-                                       </ul>
+                                                        </li>
+                                                        <?php } else if ($user->postjob_id == $user->post_id && $user->userid == $_SESSION['afrebay']['userId'] && ($user->bidding_status == 'Selected' || $user->bidding_status == 'Short Listed')) {
+                                                            $get_user = $this->Crud_model->get_single('users', "userId='" . $user->user_id . "'");
+                                                            $get_msg1 = $this->Crud_model->GetData('chat', '', "userfrom_id='".$user->user_id."' and userto_id='".$user->userid."' and postjob_id = '".$user->post_id."'", '', 'id desc', '', '1');
+                                                        ?>
+                                                        <li class="contact" onclick="return getuser('<?= $get_user->userId ?>','<?= $user->post_id ?>');">
+                                                            <div class="wrap">
+                                                                <span class="contact-status online"></span>
+                                                                <?php if (@$get_user->profilePic && file_exists('uploads/users/' . @$get_user->profilePic)) { ?>
+                                                                <img src="<?= base_url('uploads/users/' . @$get_user->profilePic) ?>" alt="" />
+                                                                <?php } else { ?>
+                                                                <img src="<?= base_url('uploads/users/user.png') ?>" alt="" />
+                                                                <?php } ?>
+                                                                <div class="meta">
+                                                                    <p class="name">
+                                                                    <?php if (!empty($get_user->firstname)) {
+                                                                        echo ucfirst($get_user->firstname . ' ' . $get_user->lastname);
+                                                                    } else {
+                                                                        echo ucfirst($get_user->companyname);
+                                                                    } ?>
+                                                                    </p>
+                                                                    <p class="preview" title="<?= $user->post_title; ?>">Job ID : <?= "Job_".sprintf("%03d",$user->post_id); ?></p>
+                                                                    <p class="preview"><?= !empty($get_msg1->message) ? $get_msg1->message : ''; ?></p>
+                                                                    <input type="hidden" name="postjob_id" id="postjob_id" value="<?= $user->post_id; ?>">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    <?php } } } ?>
+                                                    </ul>
+                                                </div>
+                                                <!-- <div id="bottom-bar">
+                                                    <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+                                                    <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+                                                </div> -->
+                                            </div>
+                                            <div class="content">
+                                                <img class="chat-start-img" src="assets/images/chat-start-img.png">
+                                                <div id="message_list" style="height:350px;  overflow-y: scroll;overflow-y: hidden;">
+                                                    </ul>
+                                                </div>
+                                                <div class="message-input">
+                                                    <div class="wrap">
+                                                        <input type="hidden" name="userto_id" id="userto_id" value="" />
+                                                        <input type="text" name="message" id="message" placeholder="Write your message..." />
+                                                        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+                                                        <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end message list div -->
+                                        </div>
                                     </div>
-                                    <!-- <div id="bottom-bar">
-                                        <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-                                        <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
-                                    </div> -->
                                 </div>
-                                <div class="content">
-                                    <img class="chat-start-img" src="assets/images/chat-start-img.png">
-                                    <div id="message_list" style="height:650px;  overflow-y: scroll;overflow-y: hidden;">
-                                       </ul>
-                                    </div>
-                                    <div class="message-input">
-                                       <div class="wrap">
-                                          <input type="hidden" name="userto_id" id="userto_id" value="" />
-                                          <input type="text" name="message" id="message" placeholder="Write your message..." />
-                                          <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-                                          <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <!--end message list div -->
-                              </div>
-                           </div>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
-   </div>
+        </div>
+    </div>
+    </div>
 </section>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm" role="document" style="max-width: 100%;">
@@ -243,6 +246,7 @@ function newMessage() {
     //message = $(".message-input input").val();
     var userto_id = $('#userto_id').val();
     var message = $('#message').val();
+    var postjob_id = $('#postjob_id').val();
     if ($.trim(message) == '') {
         return false;
     }
@@ -251,7 +255,8 @@ function newMessage() {
         type: 'POST',
         data: {
             userto_id: userto_id,
-            message: message
+            message: message,
+            postjob_id: postjob_id
         },
         dataType: 'json',
         success: function(returndata) {
@@ -278,8 +283,8 @@ $(window).on('keydown', function(e) {
     }
 });
 //# sourceURL=pen.js
-   
-function getuser(user_id) {
+
+function getuser(user_id,post_id) {
     var displayProduct = 3;
     $('#message_list').html(createSkeleton(displayProduct));
     function createSkeleton(limit) {
@@ -307,7 +312,7 @@ function getuser(user_id) {
         url: '<?= base_url('user/dashboard/showmessage_list') ?>',
         type: 'POST',
         data: {
-            user_id: user_id
+            user_id: user_id,post_id: post_id
         },
         dataType: 'json',
         success: function(result) {
@@ -317,6 +322,7 @@ function getuser(user_id) {
         }
     });
 }
+
 function openVideoCallWindow(fid) {
 	var callPath = "<?php echo base_url('livevideo/video/');?>"+fid;
 	window.open(callPath, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=20,width=600,height=450");

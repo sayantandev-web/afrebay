@@ -27,8 +27,6 @@
                 <label>Category</label>
                 <select class="form-control select filter_search_data6" name="">
                   <option value="">Select category</option>
-
-
                 </select>
               </div>
             </div>

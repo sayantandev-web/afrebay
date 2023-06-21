@@ -520,11 +520,15 @@
 
     <div class="block double-gap-top double-gap-bottom">
 
-        <div data-velocity="-.1"
+        <!-- <div data-velocity="-.1" style="background: url(<?=base_url(); ?>assets/images/resource/parallax1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color"></div> -->
 
-            style="background: url(<?=base_url(); ?>assets/images/resource/parallax1.jpg) repeat scroll 50% 422.28px transparent;"
-
-            class="parallax scrolly-invisible layer color"></div>
+        <?php if(!empty($get_banner_middle->image) && file_exists('uploads/banner/'.$get_banner_middle->image)){?>
+        <!-- <img src="<?=base_url('uploads/banner/'.$get_banner_middle->image); ?>" alt="" /> -->
+        <div data-velocity="-.1" style="background: url(<?=base_url('uploads/banner/'.$get_banner_middle->image); ?>) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color"></div>
+        <?php } else{?>
+        <!-- <img src="<?=base_url(); ?>assets/images/resource/mslider1.jpg" alt="" /> -->
+        <div data-velocity="-.1" style="background: url(<?=base_url(); ?>assets/images/resource/parallax1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color"></div>
+        <?php } ?>
 
         <!-- PARALLAX BACKGROUND IMAGE -->
 

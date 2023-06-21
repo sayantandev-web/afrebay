@@ -4,7 +4,7 @@
 ?>
 <div class="sidebar" id="sidebar">
 	<div class="sidebar-logo">
-		<a href="##">
+		<a href="<?php echo admin_url();?>dashboard">
 			<img src="<?=base_url(); ?>uploads/logo/<?= $get_setting->logo?>" class="img-fluid" alt="">
 		</a>
 </div>
@@ -42,7 +42,7 @@
 				<!-- <a href="<?= admin_url('payment')?>"><i class="fas fa-hashtag"></i> <span>Vendors Subscription</span></a> -->
 				<a href="<?= admin_url('payment')?>"><i class="fas fa-hashtag"></i><span>List of Subscriptions</span></a>
 
-				
+
 			</li>
 			<li <?php if ($seg2 =='jobsbidding') {?>class="active"<?php }?>>
 				<a href="<?= admin_url('jobsbidding')?>"><i class="far fa-calendar-check"></i> <span> Jobs Bidding</span></a>
@@ -54,7 +54,10 @@
 				<a href="#"><i class="fas fa-star"></i> <span>Ratings</span></a>
 			</li> -->
 			<li <?php if ($seg2 =='subscription') {?>class="active"<?php }?>>
-				<a href="<?= admin_url('subscription')?>"><i class="far fa-calendar-alt"></i> <span>Subscription Plans</span></a>
+				<a href="<?= admin_url('subscription')?>"><i class="far fa-calendar-alt"></i>
+					<!-- <span>Subscription Plans</span> -->
+					<span>Freelancer Subscriptions</span>
+				</a>
 			</li>
 			<!-- <li <?php if ($seg2 =='Wallet') {?>class="active"<?php }?>>
 				<a href="#"><i class="fas fa-wallet"></i> <span> Wallet</span></a>

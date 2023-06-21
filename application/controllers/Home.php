@@ -22,7 +22,8 @@ class Home extends MY_Controller {
 		$data['get_company'] = $this->Crud_model->GetData('company_logo', '', "status='Active'", '', '', '');
 		$data['get_users'] = $this->Users_model->get_users();
 		$data['get_ourservice'] = $this->Crud_model->GetData('our_service', '', "status='Active'", '', '', '');
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='1'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Home Top'");
+		$data['get_banner_middle'] = $this->Crud_model->get_single('banner', "page_name='Home Middle'");
 		$this->load->view('header');
 		$this->load->view('home', $data);
 		$this->load->view('footer');
@@ -30,14 +31,14 @@ class Home extends MY_Controller {
 
 	public function signup() {
 		$data['get_category'] = $this->Crud_model->GetData('category');
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='10'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Sign Up'");
 		$this->load->view('header');
 		$this->load->view('register', $data);
 		$this->load->view('footer');
 	}
 
 	public function login_page() {
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='9'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Login'");
 		$this->load->view('header');
 		$this->load->view('login', $data);
 		$this->load->view('footer');
@@ -45,7 +46,8 @@ class Home extends MY_Controller {
 
 	public function about() {
 		$data['get_cms'] = $this->Crud_model->get_single('manage_cms', "id='2'");
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='3'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='About Us Top'");
+		$data['get_banner_middle'] = $this->Crud_model->get_single('banner', "page_name='About Us Middle'");
 		$data['get_employer'] = $this->Crud_model->GetData('users', '', "userType='2'", '', '(userId)desc', '4');
 		$this->load->view('header');
 		$this->load->view('frontend/about_us', $data);
@@ -54,7 +56,7 @@ class Home extends MY_Controller {
 
 	public function contact() {
 		$data['get_data'] = $this->Crud_model->get_single('setting');
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='4'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Contact Us'");
 		$this->load->view('header');
 		$this->load->view('frontend/contact_us', $data);
 		$this->load->view('footer');
@@ -109,7 +111,7 @@ class Home extends MY_Controller {
 
 	public function privacy() {
 		$data['get_cms'] = $this->Crud_model->get_single('manage_cms', "id='3'");
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='12'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Privacy policy'");
 		$this->load->view('header');
 		$this->load->view('frontend/privacy_policy', $data);
 		$this->load->view('footer');
@@ -117,7 +119,7 @@ class Home extends MY_Controller {
 
 	public function term_and_conditions() {
 		$data['get_cms'] = $this->Crud_model->get_single('manage_cms', "id='1'");
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='13'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Term and conditions'");
 		$this->load->view('header');
 		$this->load->view('frontend/term_and_conditions', $data);
 		$this->load->view('footer');
@@ -147,16 +149,56 @@ class Home extends MY_Controller {
 		//$data['get_subscription'] = $this->Crud_model->GetData('subscription');
 		$data['get_subscription'] = $this->db->query("SELECT * FROM subscription ".$cond."")->result_array();
 		$data['subcriber_pack'] = $this->Crud_model->GetData('employer_subscription', '', "employer_id='" . @$_SESSION['afrebay']['userId'] . "'");
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='11'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Pricing'");
 		$this->load->view('header');
 		$this->load->view('frontend/pricing', $data);
+		$this->load->view('footer');
+	}
+
+	function vendor_pricing() {
+		$vis_ip = $this->getVisIPAddr(); // Store the IP address
+		$ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $vis_ip));
+
+		$countryName = $ipdat->geoplugin_countryName;
+		if($countryName == 'Nigeria') {
+			$cond = " WHERE subscription_country = 'Nigeria' AND subscription_user_type = 'Vendor'";
+		} else {
+			$cond = " WHERE subscription_country = 'Global' AND subscription_user_type = 'Vendor'";
+		}
+
+		//$data['get_subscription'] = $this->Crud_model->GetData('subscription');
+		$data['get_subscription'] = $this->db->query("SELECT * FROM subscription ".$cond."")->result_array();
+		$data['subcriber_pack'] = $this->Crud_model->GetData('employer_subscription', '', "employer_id='".@$_SESSION['afrebay']['userId']."'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Pricing'");
+		$this->load->view('header');
+		$this->load->view('frontend/vendor_pricing', $data);
+		$this->load->view('footer');
+	}
+
+	function freelancer_pricing() {
+		$vis_ip = $this->getVisIPAddr(); // Store the IP address
+		$ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $vis_ip));
+
+		$countryName = $ipdat->geoplugin_countryName;
+		if($countryName == 'Nigeria') {
+			$cond = " WHERE subscription_country = 'Nigeria' AND subscription_user_type = 'Freelancer'";
+		} else {
+			$cond = " WHERE subscription_country = 'Global' AND subscription_user_type = 'Freelancer'";
+		}
+
+		//$data['get_subscription'] = $this->Crud_model->GetData('subscription');
+		$data['get_subscription'] = $this->db->query("SELECT * FROM subscription ".$cond."")->result_array();
+		$data['subcriber_pack'] = $this->Crud_model->GetData('employer_subscription', '', "employer_id='" . @$_SESSION['afrebay']['userId'] . "'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Pricing'");
+		$this->load->view('header');
+		$this->load->view('frontend/freelancer_pricing', $data);
 		$this->load->view('footer');
 	}
 
 	function our_jobs() {
 		$data['getcategory']=$this->Crud_model->GetData('category');
 		$data['getcountry']=$this->Crud_model->GetData('countries');
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='7'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Our Jobs'");
 		$this->load->view('header');
 		$this->load->view('frontend/post_jobslist', $data);
 		$this->load->view('footer');
@@ -232,9 +274,11 @@ class Home extends MY_Controller {
 
 	}
 
-
-
 	function post_bidding($postid) {
+		$vis_ip = $this->getVisIPAddr(); // Store the IP address
+		$ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $vis_ip));
+
+		$data['countryName'] = $ipdat->geoplugin_countryName;
 		if(!empty($_SESSION['afrebay_admin']['id'])){
 			$type='admin';
 		} else if(!empty($_SESSION['afrebay']['userId'])) {
@@ -245,7 +289,7 @@ class Home extends MY_Controller {
 		$con = "postjob.id='" . base64_decode($postid) . "'";
 		$data['post_data'] = $this->post_job_model->viewdata($con);
 		//print_r($data['post_data']);die;
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='14'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Post Jobs'");
 
 		if($type=='admin'){
 			$this->load->view('admin_header',$data);
@@ -257,7 +301,6 @@ class Home extends MY_Controller {
 			$this->load->view('header',$data);
 			$data['type']='';
 		}
-
 		$this->load->view('frontend/post_detail', $data);
 		$this->load->view('footer');
 	}
@@ -266,7 +309,7 @@ class Home extends MY_Controller {
 
 	function workers_list() {
 		$data['get_specialist'] = $this->Crud_model->GetData('specialist');
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='6'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Freelancers'");
 		$this->load->view('header');
 		$this->load->view('frontend/workers_list', $data);
 		$this->load->view('footer');
@@ -336,7 +379,7 @@ class Home extends MY_Controller {
 
 		$data['user_work'] = $this->Crud_model->GetData('user_workexperience', '', "user_id='" . base64_decode($user_id) . "'", '', '(id)desc');
 
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='16'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Frelancer Details'");
 
 		$this->load->view('header');
 
@@ -347,7 +390,7 @@ class Home extends MY_Controller {
 	}
 
 	function employer_list() {
-		$data['get_banner'] = $this->Crud_model->get_single('banner', "id='5'");
+		$data['get_banner'] = $this->Crud_model->get_single('banner', "page_name='Vendors'");
 		$data['getcategory']=$this->Crud_model->GetData('category');
 		$this->load->view('header');
 		$this->load->view('frontend/employer_list', $data);

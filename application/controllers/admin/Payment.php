@@ -62,12 +62,18 @@ class Payment extends MY_Controller {
             $expiry_date=$row->expiry_date;
             if(strtotime($expiry_date)>strtotime($currentDate)){
                 $current_status='Active';
-            }
-            else{
+            } else {
                 $current_status='Inactive';
             }
-            $btn = '<button data-transaction_id="'.$row->transaction_id.'" class="btn btn-sm bg-success-light mr-2" type="button"  onClick="view_detail(\''.$row->transaction_id.'\',\''.$current_status.'\');"><i class="far fa-eye mr-1"></i>view</button>';
-            
+            if($row->status == '1'){
+                $status = 'Active';
+            } else if($row->status == '2') {
+                $status = 'Cancelled';
+            } else {
+                $status = 'Expired';
+            }
+            $btn = '<button data-transaction_id="'.$row->transaction_id.'" class="btn btn-sm bg-success-light mr-2" type="button"  onClick="view_detail(\''.$row->transaction_id.'\',\''.$status.'\',\''.$row->invoice_pdf.'\');"><i class="far fa-eye mr-1"></i>view</button>';
+
 
             $no++;
             $nestedData = array();
@@ -81,13 +87,13 @@ class Payment extends MY_Controller {
             }
             else{
                 $usertype_name='Vendor';
-
             }
+
             $nestedData[] = $usertype_name;
             $nestedData[] = '$'.' '.$row->amount;
             $nestedData[] = date('d-M-Y',strtotime($row->payment_date));
             $nestedData[] = date('d-M-Y',strtotime($row->expiry_date));
-            $nestedData[] = $row->payment_status;
+            //$nestedData[] = $status;
             $nestedData[] = $btn;
             $data[] = $nestedData;
         }

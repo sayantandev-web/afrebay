@@ -30,7 +30,7 @@
                                     <option value="" selected>All</option>
                                     <option value="1">Freelancer</option>
                                     <option value="2">Vendor subscription</option>
-                                  
+
                                 </select>
                             </div>
                         </div>
@@ -74,12 +74,12 @@
                                         <th>Email</th>
                                         <th>User Type</th>
                                         <th>Amount</th>
-                                        <th>Date</th>
+                                        <th>Payment Date</th>
                                         <th>Expiry Date</th>
-                                        <th>Payment Status</th>
+                                        <!-- <th>Subscription Status</th> -->
                                         <th>Manage</th>
                                     </tr>
-                                </thead> 
+                                </thead>
                                 <tbody>
 
                                 </tbody>
@@ -109,9 +109,10 @@
             <input type="text" class="form-control" id="transaction_id" readonly>
           </div>
           <div class="form-group">
-            <label for="status" class="col-form-label">Status:</label>
+            <label for="status" class="col-form-label">Current Subscription Status:</label>
             <input type="text" class="form-control" id="status" readonly>
          </div>
+         <a href="" id="download_invoice">Download Invoice</a>
         </form>
       </div>
       <div class="modal-footer">
@@ -123,7 +124,7 @@
 
 <script>
 var url = '<?= admin_url('Payment/ajax_manage_page')?>';
-var actioncolumn=7;
+var actioncolumn=8;
 </script>
 
 <script type="text/javascript" src="<?= base_url('dist/assets/custom_js/user.js')?>"></script>
@@ -140,5 +141,27 @@ $(document).ready(function(){
             $('.changeName').text('Users Name');
         }
     })
+})
+</script>
+<script>
+$(window).scroll(function(){
+    var filter_inputs = $('#filter_inputs');
+    var table_wrapper = $('#table_wrapper .row:nth-child(1)');
+    var table_header = $('#table thead');
+    scroll = $(window).scrollTop();
+    if (scroll >= 100) {
+        filter_inputs.addClass('sticky_thead');
+        table_wrapper.addClass('sticky_thead1');
+        table_header.addClass('sticky_thead2');
+    } else {
+        filter_inputs.removeClass('sticky_thead');
+        table_wrapper.removeClass('sticky_thead1');
+        table_header.removeClass('sticky_thead2');
+    }
+});
+
+$('#refreshForm').click(function(){
+    $('#categorySearch').trigger("reset");
+    $('.filter_search_data6').val('').trigger('change');
 })
 </script>

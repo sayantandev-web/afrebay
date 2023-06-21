@@ -4,7 +4,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Jobsbid_model extends My_Model
 {
     // var $column_order = array(null, 'job_bid.user_id', 'job_bid.postjob_id', 'job_bid.duration', 'job_bid.cost', 'job_bid.created_date', null); //set column field database for datatable orderable
-    var $column_order = array(null, 'job_bid_name', 'post_job_name','postjob.post_title', 'job_bid.duration', 'job_bid.cost', 'job_bid.created_date', 'postjob.status');
+    var $column_order = array(null, 'job_bid_name', 'post_job_name','postjob.post_title', 'job_bid.duration', 'job_bid.bid_amount', 'job_bid.created_date', 'postjob.status');
 
     var $order = array('job_bid.id' => 'DESC');
 
@@ -41,6 +41,7 @@ END as post_job_name');
                 $cond .= " ( postjob.post_title LIKE '%" . trim($show_string) . "%' ";
                 $cond .= " OR  job_bid.duration LIKE '%" . trim($show_string) . "%' ";
                 $cond .= " OR  users.username LIKE '%" . trim($show_string) . "%' ";
+                $cond .= " OR  job_bid.bid_amount LIKE '%" . trim($show_string) . "%' ";
                 $cond .= " OR  job_bid.created_date LIKE '%" . trim(date('Y-m-d', strtotime($show_string))) . "%') ";
 
                 $this->db->where($cond);

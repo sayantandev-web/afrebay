@@ -6048,8 +6048,41 @@ table.dataTable td, table.dataTable th{
     position: sticky;
     top: 59px;
     background: #fff;
-    z-index: 1100;
+    z-index: 100;
+}
+.sticky_thead1 {
+    position: sticky;
+    top: 150px;
+    background: #fff;
+    z-index: 100;
+}
+.sticky_thead2 {
+    position: sticky;
+    top: 190px;
+    background: #fff;
+    z-index: 100;
 }
 
 table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {display: none !important;}
 table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {display: none !important;}
+
+table.dataTable thead .sorting_asc {
+    background-image: url("uploads/sort_asc.png")
+}
+
+
+/*For admin*/
+
+#table_wrapper .col-sm-12 #table {
+	width: 100% !important;
+}
+
+@media only screen and (max-width: 425px) {
+  #table_wrapper .col-sm-12 {
+	overflow-x: auto;
+  }
+
+  #table_wrapper .col-sm-12 .sticky_thead2 {
+	position: unset;
+  }
+}

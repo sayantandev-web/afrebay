@@ -48,7 +48,7 @@
                                             <tr>
                                                 <td class="heading"><?=$key->post_title; ?></td>
                                                 <td class="btn-option">
-                                                    <?php if($_SESSION['afrebay']['userType'] == '2') { ?>
+                                                    <!-- <?php if($_SESSION['afrebay']['userType'] == '2') { ?>
                                                     <?php if(@$key->bidding_status=='Pending'){?>
                                                     <a href="#" onclick="change_biddingstatus('<?= $key->id?>');"><span class="badge badge-warning" >
                                                         <?= @$key->bidding_status; ?></span></a>
@@ -58,6 +58,26 @@
                                                         <span class="badge badge-danger"><?= @$key->bidding_status; ?></span>
                                                     <?php } ?>
                                                     <?php } else {
+                                                        echo @$key->bidding_status;
+                                                    } ?> -->
+                                                    <?php
+                                                    if($_SESSION['afrebay']['userType'] == '2') {
+                                                        if(@$key->bidding_status != 'Rejected') {?>
+                                                            <select name="change_biddingstatus" id="change_biddingstatus_<?php echo @$key->id?>" >
+                                                                <option value="">Select Option</option>
+                                                                <option value="Under Review" <?php if(@$key->bidding_status == 'Under Review'){echo "Selected"; }?>>Under Review</option>
+                                                                <option value="Short Listed" <?php if(@$key->bidding_status == 'Short Listed'){echo "Selected"; }?>>Short Listed</option>
+                                                                <option value="Rejected" <?php if(@$key->bidding_status == 'Rejected'){echo "Selected"; }?>>Rejected</option>
+                                                                <option value="Selected" <?php if(@$key->bidding_status == 'Selected'){echo "Selected"; }?>>Selected</option>
+                                                            </select>
+                                                            <input type="hidden" name="jodBidid" id="jodBidid_<?php echo @$key->id?>" value="<?php echo @$key->id?>"/>
+                                                            <input type="hidden" name="postJobid" id="postJobid_<?php echo @$key->id?>" value="<?php echo @$key->postjob_id?>"/>
+                                                            <input type="hidden" name="jobbiduserid" id="jobbiduserid_<?php echo @$key->id?>" value="<?php echo @$key->userid?>"/>
+                                                            <input type="hidden" name="jobpostuserid" id="jobpostuserid_<?php echo @$key->id?>" value="<?php echo @$key->user_id?>"/>
+                                                        <?php } else {
+                                                            echo @$key->bidding_status;
+                                                        }
+                                                    } else {
                                                         echo @$key->bidding_status;
                                                     } ?>
                                                     <a href="javascript:void(0)" id="view_<?php echo $key->id?>" data-toggle="tooltip" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
@@ -175,6 +195,27 @@ $(document).ready(function(){
         $('#exampleModal_<?php echo $value->id?>').css("opacity", "0");
         $('#exampleModal_<?php echo $value->id?>').css("display", "none");
     })
+
+    $('#change_biddingstatus_<?php echo $value->id?>').change(function() {
+		var bidstatus = $('#change_biddingstatus_<?php echo $value->id?>').val();
+		var jodBidid = $('#jodBidid_<?php echo $value->id?>').val();
+		var postJobid = $('#postJobid_<?php echo $value->id?>').val();
+        var jobbiduserid = $('#jobbiduserid_<?php echo $value->id?>').val();
+        var jobpostuserid = $('#jobpostuserid_<?php echo $value->id?>').val();
+        var cnf = confirm('Are you sure to change the status?');
+        if(cnf==true) {
+            $.ajax({
+                type:"POST",
+                url:'<?= base_url('user/dashboard/changebiddingstatus')?>',
+                data:{bidstatus: bidstatus,jodBidid: jodBidid,postJobid: postJobid,jobbiduserid: jobbiduserid,jobpostuserid: jobpostuserid},
+                success:function(returndata) {
+                    if(returndata==1){
+                        location.reload();
+                    }
+                }
+            });
+        }
+	})
     <?php $i++; } } ?>
 })
 </script>

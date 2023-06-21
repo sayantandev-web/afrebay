@@ -217,9 +217,16 @@ class Dashboard extends CI_Controller {
 			$cond = " WHERE subscription_country = 'Global'";
 		}
 
+		if($_SESSION['afrebay']['usertype'] == '1') {
+			$uType = 'Freelancer';
+		} else {
+			$uType = 'Vendor';
+		}
+
 		//$data['get_subscription'] = $this->Crud_model->GetData('subscription');
-		$data['get_subscription'] = $this->db->query("SELECT * FROM subscription ".$cond."")->result();
-		$data['subcriber_pack'] = $this->Crud_model->GetData('employer_subscription', '', "employer_id='".$_SESSION['afrebay']['userId']."'");
+		$data['get_subscription'] = $this->db->query("SELECT * FROM subscription ".$cond." AND subscription_user_type = '".$uType."'")->result();
+		$data['current_plan'] = $this->Crud_model->GetData('employer_subscription', '', "employer_id='".$_SESSION['afrebay']['userId']."' AND status IN (1,2)");
+		$data['expired_plan'] = $this->Crud_model->GetData('employer_subscription', '', "employer_id='".$_SESSION['afrebay']['userId']."' AND status = '3'");
 		$data['subscription_check'] = $this->db->query("SELECT * FROM employer_subscription WHERE employer_id='".$_SESSION['afrebay']['userId']."' AND (status = '1' OR status = '2')")->result_array();
 		$this->load->view('header');
 		$this->load->view('user_dashboard/subscription', $data);
@@ -355,6 +362,7 @@ class Dashboard extends CI_Controller {
 			'postjob_id' => $_POST['postjob_id'],
 			'user_id' => $_SESSION['afrebay']['userId'],
 			'bid_amount' => $_POST['bid_amount'],
+			'currency' => $_POST['currency'],
 			'email' => $_POST['email'],
 			'duration' => $_POST['duration'],
 			'phone' => $_POST['phone'],
@@ -364,7 +372,7 @@ class Dashboard extends CI_Controller {
 		$this->Crud_model->SaveData('job_bid', $data);
 		$insert_id = $this->db->insert_id();
 		if(!empty($insert_id)) {
-			$this->session->set_flashdata('message', 'Add Bid Successfully !');
+			$this->session->set_flashdata('message', 'Bid Submitted Successfully! You will be notified once the Vendor has approved your bid');
 			redirect(base_url("postdetail/".base64_encode($_POST['postjob_id'])), "refresh");
 		} else {
 			$this->session->set_flashdata('message', 'Something went wrong. Please try again later.');
@@ -373,7 +381,8 @@ class Dashboard extends CI_Controller {
 
 	}
 
-	function changebiddingstatus() {
+	/*function changebiddingstatus() {
+		print_r($this->input->post()); die;
 		$get_data = $this->Crud_model->get_single('job_bid', "id='" . $_POST['jobbid_id'] . "'");
 		if ($get_data->bidding_status == 'Pending') {
 			$data1 = array(
@@ -394,6 +403,38 @@ class Dashboard extends CI_Controller {
 		}
 		echo "1";
 		exit;
+	}*/
+
+	function changebiddingstatus() {
+		$bidstatus = $this->input->post('bidstatus');
+		$jodBidid = $this->input->post('jodBidid');
+		$postJobid = $this->input->post('postJobid');
+		$jobbiduserid = $this->input->post('jobbiduserid');
+		$jobpostuserid = $this->input->post('jobpostuserid');
+		$data1 = array(
+			'bidding_status' => $bidstatus,
+		);
+		$this->Crud_model->SaveData('job_bid', $data1, "id='".$jodBidid."' AND postjob_id='".$postJobid."'");
+		if($bidstatus == "Selected") {
+			$this->Crud_model->SaveData('job_bid', $data1, "id='".$jodBidid."' AND postjob_id='".$postJobid."'");
+			$binddingstatus = $this->Crud_model->GetData('job_bid', '', "postjob_id = '".$postJobid."' and bidding_status IN ('Under Review','Short Listed')");
+			foreach ($binddingstatus as $row) {
+				$data = array(
+					'bidding_status' => 'Rejected',
+				);
+				$this->Crud_model->SaveData('job_bid', $data, "id='" . $row->id . "'");
+			}
+			$getChatData = $this->db->query("SELECT * FROM chat WHERE userfrom_id != '".$jobbiduserid."' AND userto_id != '".$jobbiduserid."' AND postjob_id = '".$postJobid."'")->result();
+			if(!empty($getChatData)) {
+				$updateChatData = $this->db->query("UPDATE chat SET is_delete = '2' WHERE userfrom_id != '".$jobbiduserid."' AND userto_id != '".$jobbiduserid."' AND postjob_id = '".$postJobid."'");
+			}
+			$updatepost = array(
+				'is_delete' => 1,
+			);
+			$this->Crud_model->SaveData('postjob', $updatepost, "id='".$postJobid."'");
+		}
+		echo "1";
+		exit;
 	}
 
 	/////////////////////////////////////////  End job bidding////////////////////
@@ -405,8 +446,9 @@ class Dashboard extends CI_Controller {
 
 	////////////////////////////////// start chat functionality////////////////
 	function chat() {
-		$data['get_user'] = $this->Crud_model->get_single('users', "userId ='" . $_SESSION['afrebay']['userId'] . "'");
-		$cond = "job_bid.bidding_status='Accept'";
+		$data['get_user'] = $this->Crud_model->get_single('users', "userId ='".$_SESSION['afrebay']['userId']."'");
+		//$cond = "job_bid.bidding_status='Accept'";
+		$cond = "job_bid.bidding_status IN ('Short Listed','Selected')";
 		$data['get_jobbid'] = $this->Users_model->get_jobbidding($cond);
 		$this->load->view('header');
 		$this->load->view('user_dashboard/chat', $data);
@@ -415,6 +457,7 @@ class Dashboard extends CI_Controller {
 
 	function showmessage_list() {
 		$user_id = $this->input->post('user_id');
+		$post_id = $this->input->post('post_id');
 		$get_data = $this->Users_model->getChat();
 		//print_r($get_data);
 		$get_chatuser = $this->Crud_model->get_single('users', "userId='" . $_POST['user_id'] . "'");
@@ -431,22 +474,22 @@ class Dashboard extends CI_Controller {
 		$html_data = '<div class="contact-profile">' . $userpic . '<p>' . ucfirst($name) . '</p><div class="social-media"><a href="#"><i class="fa fa-phone" aria-hidden="true"></i></a><a href="javascript:void(0);" onclick="openVideoCallWindow('.$user_id.');"><i class="fa fa-video-camera" aria-hidden="true"></i></a><a href="#"><i class="fa fa-cog" aria-hidden="true"></i></a></div></div><div class="messages"><ul>';
 		if (!empty($get_data)) {
 			foreach ($get_data as $key) {
-				if (@$key->profilePic && file_exists('uploads/users/' . @$key->profilePic)) {
+				if (@$key->profilePic && file_exists('uploads/users/' . @$key->profilePic) && $key->postjob_id == $_POST['post_id']) {
 					$from_pic = '<img src="' . base_url('uploads/users/' . @$key->profilePic) . '" alt="" />';
 				} else {
 					$from_pic = '<img src="' . base_url('uploads/users/user.png') . '" alt="" />';
 				}
-				if (@$key->profilePic && file_exists('uploads/users/' . @$key->profilePic)) {
+				if (@$key->profilePic && file_exists('uploads/users/' . @$key->profilePic) && $key->postjob_id == $_POST['post_id']) {
 					$to_pic = '<img src="' . base_url('uploads/users/' . @$key->profilePic) . '" alt="" />';
 				} else {
 					$to_pic = '<img src="' . base_url('uploads/users/user.png') . '" alt="" />';
 				}
-				if ($key->userfrom_id == $_SESSION['afrebay']['userId'] && $key->userto_id == $_POST['user_id']) {
+				if ($key->userfrom_id == $_SESSION['afrebay']['userId'] && $key->userto_id == $_POST['user_id'] && $key->postjob_id == $_POST['post_id']) {
 					$sent = '<li class="sent">' . $from_pic . '<p>' . $key->message . '</p></li>';
 				} else {
 					$sent = '';
 				}
-				if ($key->userto_id == $_SESSION['afrebay']['userId'] && $key->userfrom_id == $_POST['user_id']) {
+				if ($key->userto_id == $_SESSION['afrebay']['userId'] && $key->userfrom_id == $_POST['user_id'] && $key->postjob_id == $_POST['post_id']) {
 					$reply = '<li class="replies">' . $to_pic . '<p>' . $key->message . '</p></li>';
 				} else {
 					$reply = '';
@@ -466,6 +509,7 @@ class Dashboard extends CI_Controller {
 				'userfrom_id' => $_SESSION['afrebay']['userId'],
 				'userto_id' => $this->input->post('userto_id'),
 				'message' => $this->input->post('message'),
+				'postjob_id' => $this->input->post('postjob_id'),
 				'created_date' => date('Y-m-d H:i:s'),
 			);
 			$this->db->insert('chat', $data);

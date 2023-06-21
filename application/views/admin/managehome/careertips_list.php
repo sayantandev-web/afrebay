@@ -188,3 +188,32 @@ var actioncolumn=4;
 CKEDITOR.replace('description');
 CKEDITOR.replace('description1');
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+$(window).scroll(function(){
+    var filter_inputs = $('#filter_inputs');
+    var table_wrapper = $('#table_wrapper .row:nth-child(1)');
+    var table_header = $('#table thead');
+    scroll = $(window).scrollTop();
+    if (scroll >= 100) {
+        table_wrapper.addClass('sticky_thead');
+        table_header.addClass('sticky_thead1');
+    } else {
+        table_wrapper.removeClass('sticky_thead');
+        table_header.removeClass('sticky_thead1');
+    }
+});
+
+$('#refreshForm').click(function(){
+    $('#categorySearch').trigger("reset");
+    $('.filter_search_data6').val('').trigger('change');
+})
+</script>
+<style>
+    .sticky_thead1 {
+    position: sticky;
+    top: 96px;
+    background: #fff;
+    z-index: 100;
+}
+</style>

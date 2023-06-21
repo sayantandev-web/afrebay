@@ -57,6 +57,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Job Title</th>
                                         <th>Vendor</th>
                                         <th>Freelancer</th>
                                         <th>Initiated Date</th>
@@ -64,19 +65,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php if(!empty($chat_list)) {
-                                    $i = 1;
-                                    foreach ($chat_list as $value) { ?>
-                                    <tr>
-                                        <td><?php echo $i;?></td>
-                                        <td><?php echo $value['full_name'];?></td>
-                                        <td><?php echo $value['to_fullname'];?></td>
-                                        <td><?php echo $value['created_date'];?></td>
-                                        <td>
-                                            <span class="btn btn-sm bg-success-light mr-2" data-toggle="modal" data-target="#viewModal" onclick="view_data(3)" data-placement="right"><i class="far fa-eye mr-1"></i><a href="<?=admin_url(); ?>chat_details/<?php echo $value['userfrom_id']?>/<?php echo $value['userto_id']?>">View Chat</a></span>
-                                        </td>
-                                    </tr>
-                                <?php $i++; } } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -87,3 +75,7 @@
     </div>
 </div>
 </div>
+<script>
+var url = '<?= admin_url('Chat/ajax_manage_page')?>';
+var actioncolumn=4;
+</script>

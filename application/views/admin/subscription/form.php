@@ -120,6 +120,8 @@ $(document).ready(function(){
 	if(selectedOption == 'free') {
 		if(selectedcountry == 'Nigeria') {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount (₦)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 NGN');
 			$('#subscription_amount').val('0.00');
 			$('#subscription_amount').prop('readonly', true);
 			$('.showProdKey').hide();
@@ -133,6 +135,8 @@ $(document).ready(function(){
 			$('.showPaystackField').hide();
 		} else {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount ($)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 USD');
 			$('#subscription_amount').val('0.00');
 			$('#subscription_amount').prop('readonly', true);
 			$('.showProdKey').hide();
@@ -142,6 +146,8 @@ $(document).ready(function(){
 	} else if(selectedOption == 'paid'){
 		if(selectedcountry == 'Nigeria') {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount (₦)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 NGN');
 			$('.showProdKey').hide();
 			$('.showPriceKey').hide();
 			$('.showPaystackField').show();
@@ -154,6 +160,8 @@ $(document).ready(function(){
 			$('#plan_code').prop('required',false);
 		} else {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount ($)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 USD');
 			$('.showProdKey').show();
 			$('.showPriceKey').show();
 			$('.showPaystackField').hide();
@@ -185,6 +193,8 @@ function showHideDiv() {
 	if(selectedOption == 'free') {
 		if(selectedcountry == 'Nigeria') {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount (₦)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 NGN');
 			$('#subscription_amount').val('0.00');
 			$('#subscription_amount').prop('readonly', true);
 			$('.showProdKey').hide();
@@ -198,6 +208,8 @@ function showHideDiv() {
 			$('.showPaystackField').hide();
 		} else {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount ($)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 USD');
 			$('#subscription_amount').val('0.00');
 			$('#subscription_amount').prop('readonly', true);
 			$('.showProdKey').hide();
@@ -207,6 +219,10 @@ function showHideDiv() {
 	} else if(selectedOption == 'paid'){
 		if(selectedcountry == 'Nigeria') {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount (₦)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 NGN');
+			$('#subscription_amount').prop('readonly', false);
+			$('#subscription_amount').val('');
 			$('.showProdKey').hide();
 			$('.showPriceKey').hide();
 			$('.showPaystackField').show();
@@ -219,6 +235,10 @@ function showHideDiv() {
 			$('#plan_code').prop('required',false);
 		} else {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount ($)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 USD');
+			$('#subscription_amount').prop('readonly', false);
+			$('#subscription_amount').val('');
 			$('.showProdKey').show();
 			$('.showPriceKey').show();
 			$('.showPaystackField').hide();
@@ -242,6 +262,8 @@ function showpaystackField() {
 	if(selectedcountry == 'Nigeria') {
 		if (selectedOption == 'free') {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount (₦)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 NGN');
 			$('#subscription_amount').val('0.00');
 			$('#subscription_amount').prop('readonly', true);
 			$('.showProdKey').hide();
@@ -249,6 +271,8 @@ function showpaystackField() {
 			$('.showPaystackField').hide();
 		} else if(selectedOption == 'paid') {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount (₦)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 NGN');
 			$('.showProdKey').hide();
 			$('.showPriceKey').hide();
 			$('.showPaystackField').show();
@@ -273,6 +297,8 @@ function showpaystackField() {
 	} else {
 		if (selectedOption == 'free') {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount ($)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 USD');
 			$('#subscription_amount').val('0.00');
 			$('#subscription_amount').prop('readonly', true);
 			$('.showProdKey').hide();
@@ -280,6 +306,8 @@ function showpaystackField() {
 			$('.showPaystackField').hide();
 		}  else if(selectedOption == 'paid') {
 			$('.showSubPrice').show();
+			$('.showSubPrice label').text('Subscription Amount ($)');
+			$('#subscription_amount').attr('placeholder', 'Example: 100 USD');
 			$('.showProdKey').show();
 			$('.showPriceKey').show();
 			$('.showPaystackField').hide();
@@ -306,6 +334,7 @@ function only_number(event) {
         event.preventDefault();
     }
 }
+
 function only_numbers(event) {
     var x = event.which || event.keyCode;
     console.log(x);

@@ -44,7 +44,12 @@ if(!empty($get_banner->image) && file_exists('uploads/banner/'.$get_banner->imag
 
 <section>
     <div class="block About_Us_Testimonial">
-        <div data-velocity="-.1" style="background: url('<?= base_url('assets/images/resource/parallax2.jpg')?>') repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color light"></div>
+        <!-- <div data-velocity="-.1" style="background: url('<?= base_url('assets/images/resource/parallax2.jpg')?>') repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color light"></div> -->
+        <?php if(!empty($get_banner_middle->image) && file_exists('uploads/banner/'.$get_banner_middle->image)){?>
+        <div data-velocity="-.1" style="background: url(<?=base_url('uploads/banner/'.$get_banner_middle->image); ?>) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color"></div>
+        <?php } else{?>
+        <div data-velocity="-.1" style="background: url(<?=base_url(); ?>assets/images/resource/parallax2.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color"></div>
+        <?php } ?>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

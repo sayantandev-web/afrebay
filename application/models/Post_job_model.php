@@ -22,6 +22,9 @@ class Post_job_model extends My_Model {
             foreach ($explode_string as $show_string) {
                 $cond  = " ";
                 $cond.=" (  postjob.post_title LIKE '%".trim($show_string)."%' ";
+                $cond.=" OR  category.category_name LIKE '%".trim($show_string)."%' ";
+                $cond.=" OR  postjob.duration LIKE '%".trim($show_string)."%' ";
+                $cond.=" OR  postjob.charges LIKE '%".trim($show_string)."%' ";
                 $cond.=" OR  postjob.status LIKE '%".trim($show_string)."%') ";
                 $this->db->where($cond);
             }
@@ -59,6 +62,7 @@ class Post_job_model extends My_Model {
     }
 
     function viewdata($con) {
+        //echo 'SELECT postjob.*,category.category_name,CONCAT(users.firstname," ",users.lastname) as fullname,users.username,users.address as user_address,sub_category.sub_category_name,users.userType FROM postjob JOIN category ON category.id=postjob.category_id JOIN users ON users.userId=postjob.user_id JOIN sub_category ON sub_category.id=postjob.subcategory_id WHERE'.$con; die();
         $this->db->select('postjob.*,category.category_name,CONCAT(users.firstname," ",users.lastname) as fullname,users.username,users.address as user_address,sub_category.sub_category_name,users.userType' );
         $this->db->from('postjob');
         $this->db->join('category','category.id=postjob.category_id');
@@ -247,7 +251,7 @@ class Post_job_model extends My_Model {
                     $profile_pic= '<img src="'.base_url('uploads/users/user.png').'" alt="" />';
                 }
 
-                $output .= '<div class="emply-resume-list"><div class="emply-resume-thumb">'.$profile_pic.'</div><div class="emply-resume-info"><h3><a href="'.base_url('postdetail/'.base64_encode($row['id'])).'" title="">'.$row['post_title'].'</a></h3><span>'.$get_category->category_name.'</span><span>'.$get_subcategory->sub_category_name.' </span><p><i class="la la-map-marker"></i>'.$row["city"].', '.$row["state"].', '.$row["country"].'</p><div class="Employee-Details"><div class="MoreDetailsTxt_'.$row['id'].'">'.strip_tags($row['description']).'</div><a class="btn btn-info More" onclick="MoreDetailsTxt('.$row['id'].')">View Details</a></div></div><div class="shortlists"><a href="'.base_url('employerdetail/'.base64_encode($get_users->userId)).'" class="Emp_Comp"><i class="fa fa-briefcase" aria-hidden="true"></i>'.$name.'</a><a href="'.base_url('postdetail/'.base64_encode($row['id'])).'" title="">Bid Now <i class="la la-plus"></i></a></div></div> ';
+                $output .= '<div class="emply-resume-list"><div class="emply-resume-thumb">'.$profile_pic.'</div><div class="emply-resume-info"><h3><a href="'.base_url('postdetail/'.base64_encode($row['id'])).'" title="">'.$row['post_title'].'</a></h3><span>'.$get_category->category_name.'</span><span>'.$get_subcategory->sub_category_name.' </span><p><i class="la la-map-marker"></i>'.$row["city"].', '.$row["state"].', '.$row["country"].'</p><div class="Employee-Details"><div class="MoreDetailsTxt_'.$row['id'].'">'.$row['description'].'</div><a class="btn btn-info More" onclick="MoreDetailsTxt('.$row['id'].')">View Details</a></div></div><div class="shortlists"><a href="'.base_url('employerdetail/'.base64_encode($get_users->userId)).'" class="Emp_Comp"><i class="fa fa-briefcase" aria-hidden="true"></i>'.$name.'</a><a href="'.base_url('postdetail/'.base64_encode($row['id'])).'" title="">Bid Now <i class="la la-plus"></i></a></div></div> ';
             }
         } else {
             $output .= '<div class="emply-resume-list"><div class="emply-resume-thumb"><h2>No Data Found</h2></div></div>';

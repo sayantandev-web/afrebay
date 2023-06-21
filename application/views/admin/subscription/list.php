@@ -19,27 +19,26 @@
 				<div class="card" style="height:400px;">
 					<div class="card-body">
 						<div class="pricing-header">
-							<h2><?php echo @$key->subscription_name; ?></h2>
-							<?php if(@$key->subscription_type=='free'){
-
-								?>
-								<p><?php echo ucfirst(@$key->subscription_type)?> Subscription </p>
-
-
-								<?php
-							} else{
-								?>
-
-							<p><?php echo ucfirst(@$key->subscription_type)?> Subscription ($<b><?php echo $key->subscription_amount?></b>)</p>
-
+							<p style="text-align: center;"><?php echo "For ".ucwords($key->subscription_user_type) ?></p>
+							<p style="text-align: center;"><?php echo "Country: ".ucwords($key->subscription_country) ?></p>
+							<h2 style="text-align: center; margin-bottom: 12px;"><?php echo @$key->subscription_name; ?></h2>
+							<?php if(@$key->subscription_type=='free') { ?>
+								<p style="text-align: center;"><?php echo ucfirst(@$key->subscription_type)?> Subscription </p>
+							<?php } else { ?>
+							<p style="text-align: center;">
+								<?php if ($key->subscription_country == 'Nigeria') {
+									$currency = '₦';
+								} else {
+									$currency = '$';
+								}?>
+								<?php echo ucfirst(@$key->subscription_type)?> Subscription (<?php echo $currency; ?> <b><?php echo $key->subscription_amount?></b>)</p>
 							<?php } ?>
-
 						</div>
-						<div class="pricing-card-price">
+						<div class="pricing-card-price" style="text-align: center;">
 							<!-- <h3 class="heading2 price"><?php //echo 'USD'.' '.$key->subscription_amount; ?></h3> -->
 							<p>Duration: <span><?php echo $key->subscription_duration." days"; ?> </span></p>
 						</div>
-						<div class="pricing-options">
+						<div class="pricing-options" style="text-align: center;">
 							<?php echo $key->subscription_description;?>
 						</div>
 						<!-- <ul class="pricing-options">

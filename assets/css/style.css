@@ -26455,6 +26455,7 @@ ul {
    height: 100%;
 
    width: 100%;
+   margin-top: 15px;
 
 }
 
@@ -38487,7 +38488,7 @@ object-fit: cover;
 
    text-transform: capitalize;
 
-   width: 100px;
+   width: auto;
 
 }
 
@@ -39053,9 +39054,10 @@ footer .social {
 
 .User_Sidemenu #navigation {
 
-   background: transparent !important;
-
+   background: #ffffff !important;
    box-shadow: none !important;
+   border-radius: 10px 10px 0 0 !important;
+   padding: 0px 0 0 0 !important;
 
 }
 
@@ -39081,13 +39083,10 @@ footer .social {
 
 .User_Sidemenu .display-table-cell {
 
-   margin-top: 30px;
-
+   margin-top: 0px;
    padding: 20px 0px;
-
-   box-shadow: 0 0 10px #e3e3e3;
-
-   border-radius: 10px;
+   box-shadow: 0 5px 10px #e3e3e3;
+   border-radius: 0 0 10px 10px !important;
 
 }
 
@@ -39137,7 +39136,7 @@ footer .social {
 
    display: flex;
 
-   justify-content: center;
+   justify-content: start;
 
    flex-wrap: wrap;
 
@@ -39155,16 +39154,28 @@ footer .social {
 
    align-items: center;
 
-   margin: 5px 5px;
+   margin: 0 10px 0 0 !important;
 
-   background: linear-gradient(145deg, #ffffff, #dcdcdc);
+   /*background: linear-gradient(145deg, #ffffff, #dcdcdc);
 
-   box-shadow: 3px 3px 5px #bebebe, -3px -3px 5px #ffffff;
+   box-shadow: 3px 3px 5px #bebebe, -3px -3px 5px #ffffff;*/
 
    transition: 0.5s ease-in-out;
+   border-radius: 10px 10px 0 0;
+/*   box-shadow: 0px -1px 10px 0px #dfdfdf;*/
+   position: relative;
 
-   border-radius: 10px;
+}
 
+.User_Sidemenu .hidden-xs.display-table-cell .navi ul li span.cover {
+    width: 100%;
+    height: 10px;
+    bottom: -10px;
+    left: 0;
+    position: absolute;
+    background: #ffffff;
+    border-radius: 0px;
+    z-index: 1;
 }
 
 
@@ -39188,6 +39199,8 @@ footer .social {
    align-items: center;
 
    transition: 0.5s ease-in-out;
+   box-shadow: inset 0 0 10px #e1e1e1 !important;
+    border-radius: 10px 10px 0 0 !important;
 
 }
 
@@ -39207,11 +39220,19 @@ footer .social {
 
 }
 
+.User_Sidemenu .hidden-xs.display-table-cell .navi ul li.active span.cover {
+   bottom: -5px !important;
+}
+
+.User_Sidemenu .hidden-xs.display-table-cell .navi ul li.active a {
+   box-shadow: 0 -3px 10px #e1e1e1 !important;
+   border-radius: 10px 10px 0 0 !important;
+}
 
 
 .User_Sidemenu .hidden-xs.display-table-cell .navi ul li.active a {
 
-   background: #f4f4f4 !important;
+   background: #ffffff !important;
 
    box-shadow: inset 3px 3px 5px #cbcbcb, inset -3px -3px 5px #ffffff;
 
@@ -39225,19 +39246,20 @@ footer .social {
 
    background-position: 100% 100%, 0% 0%;
 
-   background: linear-gradient(145deg, #f4f4f4, #cecece) !important;
+   background: #ffffff !important;
+
+/*   color: #888 !important;*/
+/*   border-radius: 10px 10px 0 0 !important;*/
+
+}
+
+
+
+/*.User_Sidemenu .hidden-xs.display-table-cell .navi ul li a:hover i {
 
    color: #888 !important;
 
-}
-
-
-
-.User_Sidemenu .hidden-xs.display-table-cell .navi ul li a:hover i {
-
-   color: #888 !important;
-
-}
+}*/
 
 
 
@@ -39835,7 +39857,7 @@ footer .social {
 
 .Chat_User #frame.chat_frame {
 
-   height: 92vh;
+   height: 50vh;
 
    max-height: 720px;
 

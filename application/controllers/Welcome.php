@@ -52,11 +52,9 @@ class Welcome extends CI_Controller {
 		$search_location = $this->input->post('search_location');
 		if(isset($category_id) && !empty($category_id) || isset($title) && !empty($title) || isset($days) && !empty($days)||isset($subcategory_id) && !empty($subcategory_id)|| isset($location) && !empty($location) || isset($search_title) && !empty($search_title) || isset($search_location) && !empty($search_location) || isset($country) && !empty($country) || isset($state) && !empty($state) || isset($city) && !empty($city)) {
 			$total_count=$this->post_job_model->subcategory_getcount($title, $location,$days,$category_id,$subcategory_id,$search_title,$search_location,$country,$state,$city);
-			//print_r($total_count);
 		} else {
 			$get_product=$this->Crud_model->GetData('postjob','',"subcategory_id='".$post_id."' and is_delete='0' AND status = 'Active'");
 			$total_count=count($get_product);
-			//print_r($get_product);
 		}
 
 		$this->load->library('pagination');
@@ -112,8 +110,7 @@ class Welcome extends CI_Controller {
 	function employer_detail($user_id) {
 		if(empty($_SESSION['afrebay']['userId'])){
 			$type='admin';
-		}
-		else{
+		} else {
 			$type='user';
 		}
 		$userid=base64_decode($user_id);
@@ -128,10 +125,9 @@ class Welcome extends CI_Controller {
 		$this->Crud_model->SaveData('users',$insert_data,"userId='".$userid."'");
 		if($type=='admin'){
 			$this->load->view('admin_header',$data);
-			}
-			else{
-		$this->load->view('header');
-			}
+		} else {
+			$this->load->view('header');
+		}
 		$this->load->view('frontend/employer_detail',$data);
 		$this->load->view('footer');
 	}
@@ -155,7 +151,7 @@ class Welcome extends CI_Controller {
 		$data['countries']=$this->Crud_model->GetData('countries',"","");
 		$data['category']=$this->Crud_model->GetData('category','','');
 		$data['subcategory']=$this->Crud_model->GetData('sub_category','','');
-		$data['get_banner']=$this->Crud_model->get_single('banner',"id='8'");
+		$data['get_banner']=$this->Crud_model->get_single('banner',"page_name='Post Jobs'");
 		$this->load->view('header');
 		$this->load->view('frontend/post_job',$data);
 		$this->load->view('footer');
@@ -388,6 +384,5 @@ class Welcome extends CI_Controller {
 			$html = '';
 		}
 		echo $html;
-
 	}
 }
